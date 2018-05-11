@@ -1,0 +1,161 @@
+fileFormatVersion: 2
+guid: 34190cd15a2eb744cbe8df2c7e9f920b
+timeCreated: 1506202854
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: ' U Reactor Base'
+    100002: Center Rod
+    100004: Lower Ring
+    100006: Outer Base
+    100008: Outer Rod 1
+    100010: Outer Rod 2
+    100012: Outer Rod 3
+    100014: Outer Rod 4
+    100016: //RootNode
+    100018: Reactor Base
+    100020: U Center Rod
+    100022: U Outer Base
+    100024: U Outer Rod 1
+    100026: U Outer Rod 2
+    100028: U Outer Rod 3
+    100030: U Outer Rod 4
+    100032: Upper Ring
+    400000: ' U Reactor Base'
+    400002: Center Rod
+    400004: Lower Ring
+    400006: Outer Base
+    400008: Outer Rod 1
+    400010: Outer Rod 2
+    400012: Outer Rod 3
+    400014: Outer Rod 4
+    400016: //RootNode
+    400018: Reactor Base
+    400020: U Center Rod
+    400022: U Outer Base
+    400024: U Outer Rod 1
+    400026: U Outer Rod 2
+    400028: U Outer Rod 3
+    400030: U Outer Rod 4
+    400032: Upper Ring
+    2300000: ' U Reactor Base'
+    2300002: Center Rod
+    2300004: Lower Ring
+    2300006: Outer Base
+    2300008: Outer Rod 1
+    2300010: Outer Rod 2
+    2300012: Outer Rod 3
+    2300014: Outer Rod 4
+    2300016: Reactor Base
+    2300018: U Center Rod
+    2300020: U Outer Base
+    2300022: U Outer Rod 1
+    2300024: U Outer Rod 2
+    2300026: U Outer Rod 3
+    2300028: U Outer Rod 4
+    2300030: Upper Ring
+    3300000: ' U Reactor Base'
+    3300002: Center Rod
+    3300004: Lower Ring
+    3300006: Outer Base
+    3300008: Outer Rod 1
+    3300010: Outer Rod 2
+    3300012: Outer Rod 3
+    3300014: Outer Rod 4
+    3300016: Reactor Base
+    3300018: U Center Rod
+    3300020: U Outer Base
+    3300022: U Outer Rod 1
+    3300024: U Outer Rod 2
+    3300026: U Outer Rod 3
+    3300028: U Outer Rod 4
+    3300030: Upper Ring
+    4300000: Reactor Base
+    4300002: Center Rod
+    4300004: Outer Rod 1
+    4300006: Outer Rod 2
+    4300008: Outer Rod 3
+    4300010: Outer Rod 4
+    4300012: ' U Reactor Base'
+    4300014: U Outer Rod 4
+    4300016: U Outer Rod 2
+    4300018: U Outer Rod 1
+    4300020: U Outer Rod 3
+    4300022: U Center Rod
+    4300024: Outer Base
+    4300026: U Outer Base
+    4300028: Lower Ring
+    4300030: Upper Ring
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
