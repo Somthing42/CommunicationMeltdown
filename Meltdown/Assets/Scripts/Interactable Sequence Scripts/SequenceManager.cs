@@ -68,6 +68,12 @@ public class SequenceManager : MonoBehaviour {
         }
     }
 
+    // NOTE(barret): This needs to be tested. I don't know how reliable this is. 
+    /* I'm not exactly sure how Photon does sycronization, but there might be a 
+     * problem with desyced packets. If two players use an interactable at around 
+     * the same time and send their new list to the master, which message does the 
+     * master use to update first. 
+    */
     void AddUsedObjectToList(Interactable _interactable)
     {
 
@@ -82,8 +88,16 @@ public class SequenceManager : MonoBehaviour {
             interactedObjects.Enqueue(_interactable);
         }
 
-        PhotonView photonView = PhotonView.Get(this);
-        photonView.RPC("UpdateQueue", PhotonTargets.MasterClient, interactedObjects);
+        if (!PhotonNetwork.isMasterClient)
+        {
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC("UpdateQueue", PhotonTargets.MasterClient, interactedObjects);
+        }
+        else
+        {
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC("UpdateQueue", PhotonTargets.Others, interactedObjects);
+        }
     }
 
     [PunRPC]
@@ -91,7 +105,7 @@ public class SequenceManager : MonoBehaviour {
     {
         interactedObjects = Sequence;
 
-        if (!PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.isMasterClient)
         {
             PhotonView photonView = PhotonView.Get(this);
             photonView.RPC("UpdateQueue", PhotonTargets.Others, interactedObjects);
