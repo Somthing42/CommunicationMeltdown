@@ -166,8 +166,9 @@ public class SequenceManager : MonoBehaviour {
 
 			for (int count = offset; count < currentSequenceSize + offset; count++)
 			{
-				//sequenceText.text = (count - offset + 1).ToString();
+				sequenceText.text = (count - offset + 1).ToString();
 				OfficeDisplay.sprite = masterSequence[count].itemImage;
+
 				Debug.Log("Item that Should be showing: " + masterSequence[count].itemIndex);
 				yield return new WaitForSeconds(stepTransitionSpeed);
 
