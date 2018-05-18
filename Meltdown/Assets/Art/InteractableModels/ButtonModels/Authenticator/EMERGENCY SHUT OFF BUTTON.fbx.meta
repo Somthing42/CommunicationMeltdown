@@ -24,6 +24,20 @@ ModelImporter:
     100032: transform6
     100034: transform7
     100036: transform8
+    100038: polySurface1
+    100040: polySurface1 1
+    100042: polySurface2
+    100044: polySurface3
+    100046: polySurface4
+    100048: polySurface5
+    100050: polySurface6
+    100052: polySurface7
+    100054: transform10
+    100056: transform11
+    100058: transform12
+    100060: transform13
+    100062: transform14
+    100064: transform9
     400000: //RootNode
     400002: left
     400004: pCube1
@@ -43,11 +57,34 @@ ModelImporter:
     400032: transform6
     400034: transform7
     400036: transform8
+    400038: polySurface1
+    400040: polySurface1 1
+    400042: polySurface2
+    400044: polySurface3
+    400046: polySurface4
+    400048: polySurface5
+    400050: polySurface6
+    400052: polySurface7
+    400054: transform10
+    400056: transform11
+    400058: transform12
+    400060: transform13
+    400062: transform14
+    400064: transform9
     2000000: left
     2100000: Emergency_shut_of_button
     2300000: pPlane2
+    2300002: polySurface2
+    2300004: polySurface6
+    2300006: polySurface7
     3300000: pPlane2
+    3300002: polySurface2
+    3300004: polySurface6
+    3300006: polySurface7
     4300000: pPlane2
+    4300002: polySurface2
+    4300004: polySurface6
+    4300006: polySurface7
     9500000: //RootNode
   externalObjects: {}
   materials:
