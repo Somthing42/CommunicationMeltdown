@@ -207,8 +207,8 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
 
 		this.GameStarted = true;
 
-        // NOTE(barret): blast door down animation
-        BlastDoorAnimation.Play(); // TODO(barret): need to test this
+        // TODO(barret): blast door down animation
+
         print("Get past loop");
         if (PhotonNetwork.isMasterClient)
 		{

@@ -15,6 +15,8 @@ public class PlayerManager : Photon.PunBehaviour
 
 	public static PlayerManager instance;
 
+    public GameObject CameraRig; 
+
 	void Awake()
 	{
 		if (playerAvatar == null)
@@ -29,15 +31,19 @@ public class PlayerManager : Photon.PunBehaviour
 #if true
 	private void Start()
 	{
-		if (PhotonNetwork.isMasterClient)
+
+        if (PhotonNetwork.isMasterClient)
 		{
-			NewPlayer(0);
+            
+            NewPlayer(0);
 			GameManager.Instance.infoPanel.AddLine("MasterClient NewPlayer");
 		}
 	}
 #else
     public override void OnJoinedRoom() {
-        if (PhotonNetwork.isMasterClient) {
+        if (PhotonNetwork.isMasterClient)
+        {
+            GameManager.Instance.infoPanel.AddLine("MasterClient NewPlayer");
             NewPlayer(0);
         }
     }
@@ -63,7 +69,7 @@ public class PlayerManager : Photon.PunBehaviour
 		// Create a new player at the appropriate spawn spot
 		var trans = breakroomspawns[idx].transform;
 		var player = PhotonNetwork.Instantiate(playerAvatar.name, trans.position, trans.rotation, 0);
-		player.GetComponent<PlayerTeleportHandler>().PlayerIndex = idx;
+		CameraRig.GetComponent<PlayerTeleportHandler>().PlayerIndex = idx;
 		//master player is plant manager, disable teleport points
 		if (idx == 0)
 		{
