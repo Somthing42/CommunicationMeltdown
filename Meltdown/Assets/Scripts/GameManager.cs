@@ -61,6 +61,9 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
 	private bool ReadyedUp { get; set; }
 	private int ReadyUpCount { get; set; }
 
+
+    public Animation BlastDoorAnimation; 
+
 	void Awake()
 	{
 		if (Instance == null)
@@ -203,6 +206,9 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
 		}
 
 		this.GameStarted = true;
+
+        // NOTE(barret): blast door down animation
+        BlastDoorAnimation.Play(); // TODO(barret): need to test this
         print("Get past loop");
         if (PhotonNetwork.isMasterClient)
 		{
