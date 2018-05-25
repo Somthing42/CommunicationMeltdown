@@ -33,16 +33,15 @@ public class PlayerTeleportHandler : MonoBehaviour
 		if (eventcode == 4)
 		{
             print("eventcode == 4");
-			//if (photonView.isMine)
-			//{
-                print("(photonView.isMine)");
-                GameManager.Instance.infoPanel.AddLine("Teleporting to " + PlayerManager.instance.spawns[PlayerIndex].transform.position.ToString() + " with Index " + PlayerIndex);
+			
+            print("(photonView.isMine)");
+            GameManager.Instance.infoPanel.AddLine("Teleporting to " + PlayerManager.instance.spawns[PlayerIndex].transform.position.ToString() + " with Index " + PlayerIndex);
 				//print("Teleport Fired");
-				VRTK.VRTK_HeightAdjustTeleport TS = GetComponent<VRTK.VRTK_HeightAdjustTeleport>();
+			VRTK.VRTK_HeightAdjustTeleport TS = GetComponent<VRTK.VRTK_HeightAdjustTeleport>();
 
-				TS.Teleport(PlayerManager.instance.spawns[PlayerIndex].transform, PlayerManager.instance.spawns[PlayerIndex].transform.position, transform.rotation);
-				GameManager.Instance.infoPanel.AddLine("New Position is " + transform.position.ToString());
-			//}
+			TS.Teleport(PlayerManager.instance.spawns[PlayerIndex].transform, PlayerManager.instance.spawns[PlayerIndex].transform.position, transform.rotation);
+			GameManager.Instance.infoPanel.AddLine("New Position is " + transform.position.ToString());
+			
 		}
 
 	}
