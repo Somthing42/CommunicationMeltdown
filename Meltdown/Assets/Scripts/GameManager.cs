@@ -31,14 +31,16 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
     public float RoundEndTime { get; set; }
 
     [Header("Timer Info")]
-    [Tooltip("How much Time the players get to complete 1 sequence before Reactor Explodes.")]
+    [Tooltip("Total amount of time Players have this level.")]
     public float startingRoundTime = 60.0f;
     [Tooltip("How much Time is added back to timer after a sequence has been completed.")]
-    public float sequenceCompleteExtension = 15.0f;
-    [Tooltip("How much Time is loss from SequenceCompleteTime as more sequences get Completed. *Punishes Players for taking too long during beginning Rounds")]
-    public float sequenceDeminishTime = 5.0f;
+    public float sequenceCompleteReward = 15.0f;
+	[Tooltip("How much time players have to compleate a sequence.")]
+    public float sequenceActionTime = 10.0f;
+	[Tooltip("Speed at whch the coolent drains")]
+	public float coolentDrainSpeed=1f;
 
-    public float RoundTimeExtension { get { return sequenceCompleteExtension - (SQM.currentSequence * sequenceDeminishTime); } }
+	public float RoundTimeExtension { get { return sequenceCompleteReward - (SQM.currentSequence * sequenceActionTime); } }
 
     [Header("Controller Objects")]
     public GameObject leftController;
