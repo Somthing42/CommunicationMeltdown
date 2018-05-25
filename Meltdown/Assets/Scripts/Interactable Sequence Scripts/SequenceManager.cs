@@ -13,7 +13,7 @@ public class SequenceManager : MonoBehaviour {
     public int currentSequence = 0;							//current sequence location
     [HideInInspector]
     public int currentSequenceSize;							//size of current sequence
-    [HideInInspector]
+   
     public Console[] consoles;								//console objects array
 
     [Header("Display Information")]
