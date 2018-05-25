@@ -24,7 +24,7 @@ public class DisplayTimeRemaining : MonoBehaviour
 	void Start()
 	{
 		timerTime = GameManager.Instance.startingRoundTime;
-		failEvent = GetComponents<FailEvents> ();
+		failEvent = GetComponent<FailEvents> ();
 	}
 
 	// Update is called once per frame
