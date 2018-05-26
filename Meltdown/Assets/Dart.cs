@@ -74,7 +74,8 @@ public class Dart : MonoBehaviour {
         RB.useGravity = true;
         RB.isKinematic = false;
 
-        BC.isTrigger = true;
+        //BC.isTrigger = true;
+        BC.enabled = false;
 
     }
 
@@ -85,7 +86,8 @@ public class Dart : MonoBehaviour {
         RB.useGravity = true;
         RB.isKinematic = false;
 
-        BC.isTrigger = false;
+       // BC.isTrigger = false;
+        BC.enabled = true;
     }
 }
 
