@@ -12,8 +12,14 @@ public class Dart : MonoBehaviour {
 
     VRTK_BaseGrabAttach BGA;
 
+    VRTK_InteractableObject IO;
+
+    BoxCollider BC; 
+
     bool Hold; 
     bool Thrown;
+
+    float FlightSpeed = 2.0f; 
 	void Awake ()
     {
         TF = GetComponent<Transform>();
@@ -21,10 +27,13 @@ public class Dart : MonoBehaviour {
         //RB.centerOfMass = new Vector3(0.0f, 0.0f, 0.1f);
         BGA = GetComponent<VRTK_BaseGrabAttach>();
 
-        BGA.throwMultiplier = 2.0f;
+        BGA.throwMultiplier = FlightSpeed;
 
-        GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectGrabbed += new InteractableObjectEventHandler(ObjectGrabbed);
+        IO = GetComponent<VRTK.VRTK_InteractableObject>();
+        IO.InteractableObjectGrabbed += new InteractableObjectEventHandler(ObjectGrabbed);
 
+        IO.InteractableObjectUngrabbed += new InteractableObjectEventHandler(ObjectUngrabbed);
+        BC = GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
@@ -52,16 +61,31 @@ public class Dart : MonoBehaviour {
                 RB.velocity = new Vector3(0.0f, 0.0f, 0.0f);
             }
         }
+
+        
     }
 
     private void ObjectGrabbed(object sender, InteractableObjectEventArgs e)
 
     {
-        Thrown = true; 
+        Hold = true; 
         Debug.Log("Im Grabbed");
 
         RB.useGravity = true;
         RB.isKinematic = false;
 
+        BC.isTrigger = true;
+
+    }
+
+    private void ObjectUngrabbed(object sender, InteractableObjectEventArgs e)
+    {
+        Thrown = true;
+        Hold = false;
+        RB.useGravity = true;
+        RB.isKinematic = false;
+
+        BC.isTrigger = false;
     }
 }
+
