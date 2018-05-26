@@ -5,16 +5,17 @@ using UnityEngine.UI;
 using System;
 
 [RequireComponent(typeof(Text))]
-public class DisplayTimeRemaining : MonoBehaviour
+public class DisplayTimer : MonoBehaviour
 {
 
 	[Header("Timer stuff")]
 	public Text timeText;
 	private float timerTime;
 	//Traking the current sequence time(how longe player's taking.)
-	private float sequenceTime=0;
-	//Bool to run and stop the timer. 
-	private bool goTimer=true;
+	private float trackTime=0;
+
+	//Bool to run and stop the timer. Is what the authenticator will trigger when players do good.
+	public bool goTimer=true;
 
 	//Demo pourpuses
 	public GameObject coolent;
@@ -25,6 +26,7 @@ public class DisplayTimeRemaining : MonoBehaviour
 	{
 		timerTime = GameManager.Instance.startingRoundTime;
 		failEvent = GetComponent<FailEvents> ();
+		coolent.transform.localPosition = new Vector3 (0, 0, 0);
 	}
 
 	// Update is called once per frame
@@ -32,20 +34,25 @@ public class DisplayTimeRemaining : MonoBehaviour
 		//For future use(When players get a sequence right turn false and stop timer.)
 		if (goTimer) 
 		{
-			//OtherTimer ();
-			Timer();
+			OtherTimer ();
+			//Timer();
 		}
 		if (!goTimer)
 		{
-			//Reset sequenceTime
-			sequenceTime = 0;
+			trackTime += Time.deltaTime;//Count up
+			if (trackTime > GameManager.Instance.sequenceCompleteReward) 
+			{
+				trackTime = 0;
+				goTimer = true;
+			}
 		}
 	}
 
 
 
-	//To find at what rate coolent needs to drain to be consistent: 0.15-(X*Y)=-5.66
-	//X=Speed coolent needs to drain, Y=Amount of time in level.
+	/// <summary>
+	/// Old demo time
+	/// </summary>
 	private void Timer()
 	{
 		//Insure the game manager exists.
@@ -59,14 +66,14 @@ public class DisplayTimeRemaining : MonoBehaviour
 			string minutes=((int) timerTime/60).ToString();//Minutes formatting
 			string seconds= (timerTime%60).ToString("f2");//seconds formatting.
 			timeText.text = "Timer: " + minutes + ":" + seconds;
-			sequenceTime += Time.deltaTime;//Count up
+			trackTime += Time.deltaTime;//Count up
 
-			if(sequenceTime>GameManager.Instance.sequenceActionTime)
+			if(trackTime>GameManager.Instance.sequenceActionTime)
 			{
 				
 				DrainCoolent ();
-				//Reset sequenceTime
-				sequenceTime = 0;
+				//Reset trackTime
+				trackTime = 0;
 			}
 
 			//Testing
@@ -76,31 +83,33 @@ public class DisplayTimeRemaining : MonoBehaviour
 		}
 	}
 
+
+
+
 	//Code to drain consitntlly.
 	void OtherTimer()
 	{
 		//Insure the game manager exists.
 		if (GameManager.Instance) {
-			//Stuff to get Photon time synced
-			//timerTime -= (float)PhotonNetwork.time;
-			//Debug.Log(Environment.TickCount + "-" + Time.deltaTime);
-
 			//Real timer stuff.
 			timerTime -= Time.deltaTime;//Count down.
 			string minutes = ((int)timerTime / 60).ToString ();//Minutes formatting
 			string seconds = (timerTime % 60).ToString ("f2");//seconds formatting.
 			timeText.text = "Timer: " + minutes + ":" + seconds;
-			sequenceTime += Time.deltaTime;//Count up(How much time has past.)
+			trackTime += Time.deltaTime;//Count up(How much time has past.)
 			DrainCoolent();
 
-			
+			if (timerTime <= 0) 
+			{
+				failEvent.TestFailedSequence ();
+			}
 		}
 	}
 
 	private void DrainCoolent()
 	{
-		Vector3 drainspeed=new Vector3 (0, GameManager.Instance.coolentDrainSpeed,0);
-		coolent.transform.position -= drainspeed;
+		Vector3 drainspeed=new Vector3 (0, 5.477f/GameManager.Instance.startingRoundTime,0);
+		coolent.transform.position -= drainspeed*Time.deltaTime;
 	}
 
 
