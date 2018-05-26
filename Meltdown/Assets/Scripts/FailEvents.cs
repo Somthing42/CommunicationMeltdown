@@ -11,18 +11,17 @@ public class FailEvents : MonoBehaviour {
 	void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-
-
-	void FailedSequence()
+	//Hust so desighners can put their lights and sounds in the event.
+	public void FailedSequence()
 	{
 		sirens.Play ();
 		lights.SetActive (true);
 
+	}
+
+	// for me so I can test.
+	public void TestFailedSequence()
+	{
+		Debug.Log ("You failed try again.");
 	}
 }
