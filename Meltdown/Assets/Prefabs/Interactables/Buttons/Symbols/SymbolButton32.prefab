@@ -256,9 +256,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 518065204f6ac6a4686491b4e0cd7f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemImage: {fileID: 0}
   itemIndex: 54
   isAnimating: 0
   lerpObject: {fileID: 1358878275467452}
+  returnPosition: {fileID: 4066890298450656}
 --- !u!212 &212106021040113702
 SpriteRenderer:
   m_ObjectHideFlags: 1

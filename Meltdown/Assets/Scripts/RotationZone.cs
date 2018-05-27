@@ -34,11 +34,13 @@ public class RotationZone : MonoBehaviour
     {
         Vector3 ToPoint = Point - BC.bounds.center;
 
-        EnablePointer(Point, ToPoint);
-
-        return Mathf.Abs(ToPoint.x) < Mathf.Abs(BC.bounds.extents.x) &&
+        bool Result = Mathf.Abs(ToPoint.x) < Mathf.Abs(BC.bounds.extents.x) &&
             Mathf.Abs(ToPoint.y) < Mathf.Abs(BC.bounds.extents.y) &&
             Mathf.Abs(ToPoint.z) < Mathf.Abs(BC.bounds.extents.z);
+
+        if (Result) { EnablePointer(Point, ToPoint); };
+
+        return Result;
     }
 
     private void EnablePointer(Vector3 Point, Vector3 ToPoint)

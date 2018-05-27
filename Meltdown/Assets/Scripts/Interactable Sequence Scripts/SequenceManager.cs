@@ -6,106 +6,121 @@ using UnityEngine.UI;
 
 public class SequenceManager : MonoBehaviour {
     [Header("Sequence Information")]
-    public List<Interactable> masterSequence;
-    public Queue<Interactable> interactedObjects;
-    public int[] sequenceSizes;
+	public List<Interactable> masterSequence;				//main sequence (contains all interactables)
+    public Queue<Interactable> interactedObjects;			//interacted objects queue
+    public int[] sequenceSizes;								//sequence sizes array
     [HideInInspector]
-    public int currentSequence = 0;
+    public int currentSequence = 0;							//current sequence location
     [HideInInspector]
-    public int currentSequenceSize;
-    [HideInInspector]
-    public Console[] consoles;
+    public int currentSequenceSize;							//size of current sequence
+   
+    public Console[] consoles;								//console objects array
 
     [Header("Display Information")]
-    public SpriteRenderer OfficeDisplay;
-    public Text sequenceText;
-    public float stepTransitionSpeed = 3.0f;
+    public SpriteRenderer OfficeDisplay;					//sprite display
+    public Text sequenceText;								//text display
+	public Text authText;
+    public float stepTransitionSpeed = 3.0f;				//time till display change
 
     [Header("Authentication Button Info")]
-    public GameObject lerpObject;
+	public GameObject lerpObject;							//authenticate button lerp
     [HideInInspector]
-    public bool isAnimating = false;
+    public bool isAnimating = false;						//is the object animated currently
 
 
 
     // Use this for initialization
     void Start() {
 
-        consoles = FindObjectsOfType<Console>();
-        CreateSequence();
-        currentSequenceSize = sequenceSizes[currentSequence];
-        interactedObjects = new Queue<Interactable>(currentSequenceSize);
-        StartCoroutine("DisplaySequenceToRenderer");
+        consoles = FindObjectsOfType<Console>();							//add all consoles to console array
+        CreateSequence();													//run sequence creation function
+        currentSequenceSize = sequenceSizes[currentSequence];				//set current sequence size to start of sequence
+        interactedObjects = new Queue<Interactable>(currentSequenceSize);	//create new queue for interacted objects
+        StartCoroutine("DisplaySequenceToRenderer");						//start display coroutine
     }
 
     // Update is called once per frame
     void Update() {
     }
 
-    public void CreateSequence()
+    public void CreateSequence()											//create sequence function
     {
-        foreach (Console console in consoles)
+        foreach (Console console in consoles)								//for each console objects in console array
         {
-            foreach (Interactable interactable in console.interactables)
+            foreach (Interactable interactable in console.interactables)	//for each interactable on the console
             {
-                masterSequence.Add(interactable);
-                interactable.ObjectUsed += AddUsedObjectToList;
+                masterSequence.Add(interactable);							//add to master sequence
+                interactable.ObjectUsed += AddUsedObjectToList;				//
             }
 
         }
 
-        ShuffleSequence();
+        ShuffleSequence();													//run shuffle function
     }
 
-    void ShuffleSequence()
+    void ShuffleSequence()													//function to shuffle sequence
     {
-        for (int count = 0; count < masterSequence.Count; count++)
+        for (int count = 0; count < masterSequence.Count; count++)						//for the entirety of the master sequence
         {
-            int randomValue = UnityEngine.Random.Range(count, masterSequence.Count);
-            Interactable holder = masterSequence[randomValue];
-            masterSequence[randomValue] = masterSequence[count];
-            masterSequence[count] = holder;
+            int randomValue = UnityEngine.Random.Range(count, masterSequence.Count);	//create a random value
+            Interactable holder = masterSequence[randomValue];							//temp var to store the interactable from master sequence at randomVal location
+            masterSequence[randomValue] = masterSequence[count];						//place the object at count location into the randomVal location
+            masterSequence[count] = holder;												//replace the temp object into the master sequence at count location
         }
     }
 
-    void AddUsedObjectToList(Interactable _interactable)
+    // NOTE(barret): This needs to be tested. I don't know how reliable this is. 
+    /* I'm not exactly sure how Photon does sycronization, but there might be a 
+     * problem with desyced packets. If two players use an interactable at around 
+     * the same time and send their new list to the master, which message does the 
+     * master use to update first. 
+    */
+    void AddUsedObjectToList(Interactable _interactable)				//add used object function
     {
 
-        if (interactedObjects.Count + 1 > currentSequenceSize)
+		if (interactedObjects.Count + 1 > currentSequenceSize)			//if the count of interactable objects (plus one) is greater than the current sequence size
         {
 
-            interactedObjects.Dequeue();
-            interactedObjects.Enqueue(_interactable);
+            interactedObjects.Dequeue();								//remove the object at the beginning of the queue
+            interactedObjects.Enqueue(_interactable);					//add the passed in object to the queue
         }
-        else
+        else             												//else
         {
-            interactedObjects.Enqueue(_interactable);
+            interactedObjects.Enqueue(_interactable);					//add the passed in object to the queue
         }
 
-        PhotonView photonView = PhotonView.Get(this);
-        photonView.RPC("UpdateQueue", PhotonTargets.MasterClient, interactedObjects);
+        if (!PhotonNetwork.isMasterClient)													//if not master client
+        {
+            PhotonView photonView = PhotonView.Get(this);									//set photon view to this
+            photonView.RPC("UpdateQueue", PhotonTargets.MasterClient, interactedObjects);	//rpc pass to master client
+        }
+		else 																				//else (is master client)
+        {
+            PhotonView photonView = PhotonView.Get(this);									//set photon view to this
+            photonView.RPC("UpdateQueue", PhotonTargets.Others, interactedObjects);			//rpc pass to others
+        }
     }
 
     [PunRPC]
-    void UpdateQueue(Queue<Interactable>  Sequence)
+    void UpdateQueue(Queue<Interactable>  Sequence)										//update queue function for photon
     {
-        interactedObjects = Sequence;
+        interactedObjects = Sequence;													//set interacted objects queue to passed in queue
 
-        if (!PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.isMasterClient)												//if master client
         {
-            PhotonView photonView = PhotonView.Get(this);
-            photonView.RPC("UpdateQueue", PhotonTargets.Others, interactedObjects);
+            PhotonView photonView = PhotonView.Get(this);								//set photon view to this
+            photonView.RPC("UpdateQueue", PhotonTargets.Others, interactedObjects);		//rpc pass to others
         }
     }
 
-	public void Authenticate()
+	public void Authenticate()																//authenticate function
 	{
-		bool authenticated = false;
+		bool authenticated = false;															//set authenticated to false initially
 
-		if (interactedObjects.Count == currentSequenceSize) {
+		if (interactedObjects.Count == currentSequenceSize) {								//if the count of interacted objects is equal to current sequence size
 
-			if (Input.GetKeyDown (KeyCode.Space)) {
-				Interactable[] listToCheck = interactedObjects.ToArray ();
+			//if (Input.GetKeyDown (KeyCode.Space)) {											//~~~~if space is pressed~~~~ not sure how to change this to physical button if needed
+				Interactable[] listToCheck = interactedObjects.ToArray ();					//convert interacted objects queue to an array and store in list to check
 				int offset = 0;
 				for (int count = 0; count < currentSequence; count++) {
 					offset += sequenceSizes [count];
@@ -129,13 +144,18 @@ public class SequenceManager : MonoBehaviour {
 						currentSequenceSize = sequenceSizes [currentSequence];
 					}
 					Debug.Log ("Authenticated");
-
+					authText.text = "Authenticated";
 
 				} else {
 					interactedObjects.Clear ();
 					Debug.Log ("Rejected");
+					authText.text = "Rejected";
 				}
-			}
+			//}
+		} else {
+			interactedObjects.Clear ();
+			Debug.Log ("Rejected");
+			authText.text = "Rejected";
 		}
 	}
 
@@ -152,8 +172,9 @@ public class SequenceManager : MonoBehaviour {
 
 			for (int count = offset; count < currentSequenceSize + offset; count++)
 			{
-				//sequenceText.text = (count - offset + 1).ToString();
+				sequenceText.text = (count - offset + 1).ToString();
 				OfficeDisplay.sprite = masterSequence[count].itemImage;
+
 				Debug.Log("Item that Should be showing: " + masterSequence[count].itemIndex);
 				yield return new WaitForSeconds(stepTransitionSpeed);
 

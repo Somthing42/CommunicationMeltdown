@@ -65,20 +65,7 @@ public class NetworkManager : Photon.PunBehaviour
 		Debug.Log("Joined room");
 		if (PhotonNetwork.isMasterClient)
 		{
-			GameManager.Instance.InitializeButtonDataArray();
-			GameManager.Instance.MasterServerCreateSecondSpriteArray();
-			GameManager.Instance.ShuffleSprites();
-			GameManager.Instance.GiveButtonsImages();
-			GameManager.Instance.CreateJSONOfButtonDataArray(GameManager.Instance.buttonDataArray);
-
-			Debug.Log("Got Em");
-			GameManager.Instance.NumberButtons();
-			GameManager.Instance.GenerateSequence();
-
-			GameManager.Instance.PopulateSequenceArray();
-			GameManager.Instance.CreateJSONOfSequenceData(GameManager.Instance.synchronizedSequenceArray);
-			//GameManager.Instance.StartCoroutine(GameManager.Instance.ShowSequenceIcons());
-
+			
 		}
 
 		object duration;
@@ -97,10 +84,7 @@ public class NetworkManager : Photon.PunBehaviour
 
 		if (PhotonNetwork.isMasterClient)
 		{
-				photonView.RPC("UpdateGameManager", newPlayer, GameManager.Instance.CreateJSONOfButtonDataArray(GameManager.Instance.buttonDataArray));
-				photonView.RPC("UpdateSequence", newPlayer, GameManager.Instance.CreateJSONOfSequenceData(GameManager.Instance.synchronizedSequenceArray));
-				GameManager.Instance.photonView.RPC("updateCurrentSequenceInformation", newPlayer, GameManager.Instance.currentSequence);
-				GameManager.Instance.photonView.RPC("updateCurrentStepInformation", newPlayer, GameManager.Instance.currentStep);
+				
 				Debug.Log("RCP Call to synch GameManager");
 		}
 	}
@@ -131,11 +115,7 @@ public class NetworkManager : Photon.PunBehaviour
 	[PunRPC]
 	void UpdateGameManager(string json)
 	{
-		// Create a new player at the appropriate spawn spot
-		GameManager.Instance.InitializeButtonDataArray();
-		GameManager.Instance.buttonDataArray = JsonUtility.FromJson<ButtonDataArray>(json);
-		GameManager.Instance.ImplementButtonDataArray();
-		GameManager.Instance.GiveButtonsImages();
+		
 	}
 
 	[PunRPC]
@@ -144,18 +124,5 @@ public class NetworkManager : Photon.PunBehaviour
 		// Create a new player at the appropriate spawn spot
 
 
-		//GameManager.instance.ImplementButtonDataArray ();
-		//GameManager.instance.GiveButtonsImages ();
-		GameManager.Instance.CreateJSONOfButtonDataArray(GameManager.Instance.buttonDataArray);
-
-		GameManager.Instance.NumberButtons();
-		GameManager.Instance.GenerateSequence();
-
-		GameManager.Instance.PopulateSequenceArray();
-		GameManager.Instance.CreateJSONOfSequenceData(GameManager.Instance.synchronizedSequenceArray);
-
-		GameManager.Instance.synchronizedSequenceArray = JsonUtility.FromJson<SynchronizedSequenceArray>(json);
-		GameManager.Instance.ImplementSequenceData();
-		GameManager.Instance.StartCoroutine(GameManager.Instance.ShowSequenceIcons());
 	}
 }

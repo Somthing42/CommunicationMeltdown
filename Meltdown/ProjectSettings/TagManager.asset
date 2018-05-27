@@ -10,6 +10,7 @@ TagManager:
   - TeleportIgnore
   - Floor
   - RotationZone
+  - dartboard
   layers:
   - Default
   - TransparentFX
