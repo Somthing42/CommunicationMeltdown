@@ -24,9 +24,12 @@ public class DisplayTimer : MonoBehaviour
 
 	void Start()
 	{
+		//Gamemaneger dosn't have a Start() and I Don't want to mess with it to much.
+		GameManager.Instance.SetDifficalty();
 		timerTime = GameManager.Instance.startingRoundTime;
 		failEvent = GetComponent<FailEvents> ();
 		coolent.transform.localPosition = new Vector3 (0, 0, 0);
+
 	}
 
 	// Update is called once per frame
@@ -102,13 +105,14 @@ public class DisplayTimer : MonoBehaviour
 			if (timerTime <= 0) 
 			{
 				failEvent.TestFailedSequence ();
+				Time.timeScale = 0;
 			}
 		}
 	}
 
 	private void DrainCoolent()
 	{
-		Vector3 drainspeed=new Vector3 (0, 5.477f/GameManager.Instance.startingRoundTime,0);
+		Vector3 drainspeed=new Vector3 (0, 4.3f/GameManager.Instance.startingRoundTime,0);
 		coolent.transform.position -= drainspeed*Time.deltaTime;
 	}
 

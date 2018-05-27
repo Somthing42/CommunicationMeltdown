@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 public class GameManager : Photon.PunBehaviour, IPunObservable
 {
+	
+
     public static GameManager Instance { get; private set; }
 
     public GameObject[] buttonObjectArray;
@@ -29,6 +33,20 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
     private int MinimumPlayers = 2;
 
     public float RoundEndTime { get; set; }
+
+	//Can't put a header above enum.
+	enum Difficulty {Easy,Medium,Hard};
+
+	[Header("Difficalty")]
+	[SerializeField]
+	private Difficulty difficulty;
+	[Tooltip("0=Easy,1=Medium,2=Hard")]
+	public float[] PossibleRoundTimes= new float[3];
+	[Tooltip("0=Easy,1=Medium,2=Hard")]
+	public float[] PossibleSequenceCompleteRewardTimes= new float[3];
+	[Tooltip("0=Easy,1=Medium,2=Hard")]
+	public float[] PossibleSequenceActionTimes= new float[3];
+
 
     [Header("Timer Info")]
     [Tooltip("Total amount of time Players have this level.")]
@@ -417,6 +435,28 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
 		{
 			photonView.RPC("SendButtonPress", PhotonNetwork.masterClient, button);
 		}
+	}
+	public void SetDifficalty()
+	{
+		if (difficulty == Difficulty.Easy) 
+		{
+			startingRoundTime = PossibleRoundTimes [0];
+			sequenceCompleteReward = PossibleSequenceCompleteRewardTimes [0];
+			sequenceActionTime = PossibleSequenceActionTimes [0];
+		}
+		if (difficulty == Difficulty.Medium) 
+		{
+			startingRoundTime = PossibleRoundTimes [1];
+			sequenceCompleteReward = PossibleSequenceCompleteRewardTimes [1];
+			sequenceActionTime = PossibleSequenceActionTimes [1];
+		}
+		if (difficulty == Difficulty.Hard) 
+		{
+			startingRoundTime = PossibleRoundTimes [2];
+			sequenceCompleteReward = PossibleSequenceCompleteRewardTimes [2];
+			sequenceActionTime = PossibleSequenceActionTimes [2];
+		}
+
 	}
 
 #if false
