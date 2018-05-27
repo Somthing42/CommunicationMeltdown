@@ -211,6 +211,7 @@ namespace VRTK
 			if (this.gameObject.GetComponent<CustomButton> () != null) 
 			{
 				StartCoroutine(this.gameObject.GetComponent<CustomButton>().lerpDown(0.2f));
+				Debug.Log ("Button Test");
 				this.gameObject.GetComponent<CustomButton>().OnObjectUsed();
 			}
 
@@ -219,6 +220,7 @@ namespace VRTK
 			if(this.gameObject.GetComponent<SequenceManager>() != null)
 			{
 				StartCoroutine(this.gameObject.GetComponent<SequenceManager>().lerpDown(0.2f));
+				Debug.Log ("Auth Test");
 				this.gameObject.GetComponent<SequenceManager>().Authenticate();
 			}
 
@@ -258,6 +260,10 @@ namespace VRTK
 			if (this.gameObject.GetComponent<CustomSlider>() != null)
 			{
 				this.gameObject.GetComponent<CustomSlider>().OnObjectUsed();
+			}
+			if (this.gameObject.GetComponent<CustomWheel> () != null) 
+			{
+				this.gameObject.GetComponent<CustomWheel> ().OnObjectUsed ();
 			}
 		}
 
