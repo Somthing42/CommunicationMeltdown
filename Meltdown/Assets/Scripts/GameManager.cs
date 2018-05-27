@@ -7,42 +7,41 @@ using UnityEngine.UI;
 
 public class GameManager : Photon.PunBehaviour, IPunObservable
 {
-	
+
 
     public static GameManager Instance { get; private set; }
 
-   
+    public SequenceManager SQM;
 
     [SerializeField]
     private int MinimumPlayers = 2;
 
     public float RoundEndTime { get; set; }
 
-	//Can't put a header above enum.
-	enum Difficulty {Easy,Medium,Hard};
+    //Can't put a header above enum.
+    enum Difficulty { Easy, Medium, Hard };
 
-	[Header("Difficalty")]
-	[SerializeField]
-	private Difficulty difficulty;
-	[Tooltip("0=Easy,1=Medium,2=Hard")]
-	public float[] PossibleRoundTimes= new float[3];
-	[Tooltip("0=Easy,1=Medium,2=Hard")]
-	public float[] PossibleSequenceCompleteRewardTimes= new float[3];
-	[Tooltip("0=Easy,1=Medium,2=Hard")]
-	public float[] PossibleSequenceActionTimes= new float[3];
+    [Header("Difficalty")]
+    [SerializeField]
+    private Difficulty difficulty;
+    [Tooltip("0=Easy,1=Medium,2=Hard")]
+    public float[] PossibleRoundTimes = new float[3];
+    [Tooltip("0=Easy,1=Medium,2=Hard")]
+    public float[] PossibleSequenceCompleteRewardTimes = new float[3];
+    [Tooltip("0=Easy,1=Medium,2=Hard")]
+    public float[] PossibleSequenceActionTimes = new float[3];
 
 
     [Header("Timer Info")]
     [Tooltip("Total amount of time Players have this level.")]
     public float startingRoundTime = 300.0f;
-	[Tooltip("How long the timer will pause after getting a sequence right.")]
+    [Tooltip("How long the timer will pause after getting a sequence right.")]
     public float sequenceCompleteReward = 15.0f;
-	[Tooltip("How much time players have to compleate a sequence.")]
+    [Tooltip("How much time players have to compleate a sequence.")]
     public float sequenceActionTime = 10.0f;
 
 
-	public float RoundTimeExtension { get { return sequenceCompleteReward - (SQM.currentSequence * sequenceActionTime); } }
-
+    public float RoundTimeExtension { get { return sequenceCompleteReward - (SQM.currentSequence * sequenceActionTime); } }
 
     [Header("Controller Objects")]
     public GameObject leftController;
@@ -50,196 +49,214 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
     [Header("VRTK Controller Objects")]
     public GameObject VRTKLeftController;
     public GameObject VRTKRightController;
-   
 
 
-    public RotationZone[] RotationZones; 
 
-	[HideInInspector]
-	public InfoPanel infoPanel;
+    public RotationZone[] RotationZones;
 
-	private bool CountdownStarted { get; set; }
-	private bool GameStarted { get; set; }
-	private bool ReadyedUp { get; set; }
-	private int ReadyUpCount { get; set; }
+    [HideInInspector]
+    public InfoPanel infoPanel;
 
-
-    public Animation BlastDoorAnimation; 
-
-	void Awake()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(this.gameObject);
-		}
-
-		DontDestroyOnLoad(gameObject);
-
-		this.infoPanel = this.GetComponent<InfoPanel>();
-		this.infoPanel.AddLine("Log Active!");
-	}
+    private bool CountdownStarted { get; set; }
+    private bool GameStarted { get; set; }
+    private bool ReadyedUp { get; set; }
+    private int ReadyUpCount { get; set; }
 
 
-	void OnEnable()
-	{
-		PhotonNetwork.OnEventCall += this.CountDownEvent;
-		PhotonNetwork.OnEventCall += this.ReadyUpEvent;
-		PhotonNetwork.OnEventCall += this.ReadyDownEvent;
+    public Animation BlastDoorAnimation;
 
-	}
-	void OnDisable()
-	{
-		PhotonNetwork.OnEventCall -= this.CountDownEvent;
-		PhotonNetwork.OnEventCall -= this.ReadyUpEvent;
-		PhotonNetwork.OnEventCall -= this.ReadyDownEvent;
-	}
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
 
-	void Update()
-	{
-		// NOTE(barret): Input for readying up. for testing purposes
-		if (Input.GetKeyDown(KeyCode.F1) && ReadyedUp == false)
-		{
-			//print("F1 pressed");
-			ReadyUpRaise();
-			ReadyedUp = true;
-		}
+        DontDestroyOnLoad(gameObject);
 
-		if (Input.GetKeyDown(KeyCode.F2) && ReadyedUp == true)
-		{
-			ReadyDownRaise();
-			ReadyedUp = false;
-		}
-	}
+        this.infoPanel = this.GetComponent<InfoPanel>();
+        this.infoPanel.AddLine("Log Active!");
+    }
 
-	void StartCountdownRaise()
-	{
-		if (PhotonNetwork.room.PlayerCount >= this.MinimumPlayers && CountdownStarted == false)
-		{
-			print("Raising Countdown event");
 
-			RaiseEventOptions Options = new RaiseEventOptions()
-			{
-				Receivers = ReceiverGroup.All
-			};
+    void OnEnable()
+    {
+        PhotonNetwork.OnEventCall += this.CountDownEvent;
+        PhotonNetwork.OnEventCall += this.ReadyUpEvent;
+        PhotonNetwork.OnEventCall += this.ReadyDownEvent;
 
-			PhotonNetwork.RaiseEvent(0, new byte[] { 1, 2, 5, 10 }, true, Options);
-		}
-	}
+    }
+    void OnDisable()
+    {
+        PhotonNetwork.OnEventCall -= this.CountDownEvent;
+        PhotonNetwork.OnEventCall -= this.ReadyUpEvent;
+        PhotonNetwork.OnEventCall -= this.ReadyDownEvent;
+    }
 
-	void ReadyUpRaise()
-	{
-		RaiseEventOptions Options = new RaiseEventOptions()
-		{
-			Receivers = ReceiverGroup.All
-		};
+    void Update()
+    {
+        // NOTE(barret): Input for readying up. for testing purposes
+        if (Input.GetKeyDown(KeyCode.F1) && ReadyedUp == false)
+        {
+            //print("F1 pressed");
+            ReadyUpRaise();
+            ReadyedUp = true;
+        }
 
-		PhotonNetwork.RaiseEvent(1, new byte[] { 1, 2, 5, 10 }, true, Options);
-	}
+        if (Input.GetKeyDown(KeyCode.F2) && ReadyedUp == true)
+        {
+            ReadyDownRaise();
+            ReadyedUp = false;
+        }
+    }
 
-	void ReadyDownRaise()
-	{
-		RaiseEventOptions Options = new RaiseEventOptions()
-		{
-			Receivers = ReceiverGroup.All
-		};
+    void StartCountdownRaise()
+    {
+        if (PhotonNetwork.room.PlayerCount >= this.MinimumPlayers && CountdownStarted == false)
+        {
+            print("Raising Countdown event");
 
-		PhotonNetwork.RaiseEvent(2, new byte[] { 1, 2, 5, 10 }, true, Options);
-	}
+            RaiseEventOptions Options = new RaiseEventOptions()
+            {
+                Receivers = ReceiverGroup.All
+            };
 
-	void ReadyUpEvent(byte eventcode, object content, int senderid)
-	{
-		if (eventcode == 1)
-		{
-			print("ReadyUpEvent");
+            PhotonNetwork.RaiseEvent(0, new byte[] { 1, 2, 5, 10 }, true, Options);
+        }
+    }
 
-			if (PhotonNetwork.isMasterClient)
-			{
-				ReadyUpCount += 1;
-				infoPanel.AddLine("ReadyUpCount: " + ReadyUpCount);
-				print("ReadyUpCount: " + ReadyUpCount);
+    void ReadyUpRaise()
+    {
+        RaiseEventOptions Options = new RaiseEventOptions()
+        {
+            Receivers = ReceiverGroup.All
+        };
 
-				if (ReadyUpCount == this.MinimumPlayers)
-				{
-					print("Starting CountdownRaise");
-					infoPanel.AddLine("Starting CountdownRaise");
-					StartCountdownRaise();
-				}
-			}
-		}
-	}
+        PhotonNetwork.RaiseEvent(1, new byte[] { 1, 2, 5, 10 }, true, Options);
+    }
 
-	void ReadyDownEvent(byte eventcode, object content, int senderid)
-	{
-		if (eventcode == 2)
-		{
-			print("ReadyDownEvent");
-			if (PhotonNetwork.isMasterClient)
-			{
-				ReadyUpCount -= 1;
-				infoPanel.AddLine("ReadyDownCount: " + ReadyUpCount);
-				print("ReadyDownCount: " + ReadyUpCount);
-				if (ReadyUpCount < 0)
-					ReadyUpCount = 0;
-			}
-		}
-	}
+    void ReadyDownRaise()
+    {
+        RaiseEventOptions Options = new RaiseEventOptions()
+        {
+            Receivers = ReceiverGroup.All
+        };
 
-	void CountDownEvent(byte eventcode, object content, int senderid)
-	{
-		if (eventcode == 0)
-		{
-			StartCoroutine("StartCountdown");
-		}
-	}
+        PhotonNetwork.RaiseEvent(2, new byte[] { 1, 2, 5, 10 }, true, Options);
+    }
 
-	public IEnumerator StartCountdown()
-	{
-		float currCountdownValue = 10;
+    void ReadyUpEvent(byte eventcode, object content, int senderid)
+    {
+        if (eventcode == 1)
+        {
+            print("ReadyUpEvent");
 
-		while (currCountdownValue > 0)
-		{
-			print("Match Begins in\n" + currCountdownValue.ToString());
-			yield return new WaitForSeconds(1.0f);
-			currCountdownValue--;
-		}
+            if (PhotonNetwork.isMasterClient)
+            {
+                ReadyUpCount += 1;
+                infoPanel.AddLine("ReadyUpCount: " + ReadyUpCount);
+                print("ReadyUpCount: " + ReadyUpCount);
 
-		this.GameStarted = true;
+                if (ReadyUpCount == this.MinimumPlayers)
+                {
+                    print("Starting CountdownRaise");
+                    infoPanel.AddLine("Starting CountdownRaise");
+                    StartCountdownRaise();
+                }
+            }
+        }
+    }
+
+    void ReadyDownEvent(byte eventcode, object content, int senderid)
+    {
+        if (eventcode == 2)
+        {
+            print("ReadyDownEvent");
+            if (PhotonNetwork.isMasterClient)
+            {
+                ReadyUpCount -= 1;
+                infoPanel.AddLine("ReadyDownCount: " + ReadyUpCount);
+                print("ReadyDownCount: " + ReadyUpCount);
+                if (ReadyUpCount < 0)
+                    ReadyUpCount = 0;
+            }
+        }
+    }
+
+    void CountDownEvent(byte eventcode, object content, int senderid)
+    {
+        if (eventcode == 0)
+        {
+            StartCoroutine("StartCountdown");
+        }
+    }
+
+    public IEnumerator StartCountdown()
+    {
+        float currCountdownValue = 10;
+
+        while (currCountdownValue > 0)
+        {
+            print("Match Begins in\n" + currCountdownValue.ToString());
+            yield return new WaitForSeconds(1.0f);
+            currCountdownValue--;
+        }
+
+        this.GameStarted = true;
 
         // TODO(barret): blast door down animation
 
         print("Get past loop");
         if (PhotonNetwork.isMasterClient)
-		{
+        {
             print("Fire event");
-			TeleportIntoScene();
-		}
-	}
+            TeleportIntoScene();
+        }
+    }
 
-	void TeleportIntoScene()
-	{
-		// TODO(barret): Need to teleport the players into the scene
-		byte evCode = 4;
-		byte[] content = new byte[] { 1, 2, 5, 10 };
-		bool reliable = true;
+    void TeleportIntoScene()
+    {
+        // TODO(barret): Need to teleport the players into the scene
+        byte evCode = 4;
+        byte[] content = new byte[] { 1, 2, 5, 10 };
+        bool reliable = true;
 
-		RaiseEventOptions Options = new RaiseEventOptions()
-		{
-			Receivers = ReceiverGroup.All
-		};
-		PhotonNetwork.RaiseEvent(evCode, content, reliable, Options);
+        RaiseEventOptions Options = new RaiseEventOptions()
+        {
+            Receivers = ReceiverGroup.All
+        };
+        PhotonNetwork.RaiseEvent(evCode, content, reliable, Options);
         infoPanel.AddLine("Raised Teleport event");
         Debug.Log("Teleport");
-	}
+    }
 
 
+    public void SetDifficalty()
+    {
+        if (difficulty == Difficulty.Easy)
+        {
+            startingRoundTime = PossibleRoundTimes[0];
+            sequenceCompleteReward = PossibleSequenceCompleteRewardTimes[0];
+            sequenceActionTime = PossibleSequenceActionTimes[0];
+        }
+        if (difficulty == Difficulty.Medium)
+        {
+            startingRoundTime = PossibleRoundTimes[1];
+            sequenceCompleteReward = PossibleSequenceCompleteRewardTimes[1];
+            sequenceActionTime = PossibleSequenceActionTimes[1];
+        }
+        if (difficulty == Difficulty.Hard)
+        {
+            startingRoundTime = PossibleRoundTimes[2];
+            sequenceCompleteReward = PossibleSequenceCompleteRewardTimes[2];
+            sequenceActionTime = PossibleSequenceActionTimes[2];
+        }
 
-
-
-
+    }
 
 #if false
     //function to reset all teleport poitns to yellow after teleporting.
@@ -259,19 +276,40 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
 			teleportPoints[i].gameObject.SetActive(true);
 		}
 	}
-#endif 
+	
+#endif
 
+   /* [PunRPC]
+    void SendButtonPress(int buttonValue)
+    {
+        // Create a new player at the appropriate spawn spot
+        CheckButtonInput(buttonValue);
+    }
 
-	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-	{
-		if (stream.isWriting)
-		{
-			stream.SendNext(this.RoundEndTime);
-		}
-		else
-		{
-			this.RoundEndTime = (float)stream.ReceiveNext();
-		}
-	}
+    [PunRPC]
+    void updateCurrentSequenceInformation(int sentCurrentSequence)
+    {
+        // Create a new player at the appropriate spawn spot
+        Instance.currentSequence = sentCurrentSequence;
+    }
+
+    [PunRPC]
+    void updateCurrentStepInformation(int sentCurrentStep)
+    {
+        // Create a new player at the appropriate spawn spot
+        Instance.currentStep = sentCurrentStep;
+    }*/
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            stream.SendNext(this.RoundEndTime);
+        }
+        else
+        {
+            this.RoundEndTime = (float)stream.ReceiveNext();
+        }
+    }
 }
 
