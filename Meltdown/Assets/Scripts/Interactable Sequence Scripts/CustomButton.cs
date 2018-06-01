@@ -9,6 +9,9 @@ public class CustomButton : Interactable {
 	public GameObject lerpObject;
 	public Transform returnPosition;
 
+	[Header("Lerp Timer")]
+	public float lerpTimeUp = 1.0f;
+
 	void OnCollisionEnter(Collision collision)
 	{
 	}
@@ -17,6 +20,7 @@ public class CustomButton : Interactable {
 	{
 		if (isAnimating == false)
 		{
+			Debug.Log ("ButtonLerpDown");
 			isAnimating = true;
 
 			Vector3 start = returnPosition.position;
@@ -28,9 +32,8 @@ public class CustomButton : Interactable {
 				lerpObject.transform.position = Vector3.Lerp(start, end, duration / time);
 				yield return new WaitForSeconds(Time.deltaTime);
 			}
-			StartCoroutine(lerpUp(.3f));
-
-			StartCoroutine(lerpUp(1.0f));
+		
+			StartCoroutine(lerpUp(lerpTimeUp));
 			yield return null;
 		}
 		yield return null;
@@ -40,9 +43,10 @@ public class CustomButton : Interactable {
 
 	public IEnumerator lerpUp(float time)
 	{
-
+		Debug.Log ("ButtonLerpUP");
 
 		Vector3 start = lerpObject.transform.position;
+
 		Vector3 end = new Vector3(start.x, start.y + 0.01f, start.z);
 		float duration = 0.0f;
 		while (duration < time)

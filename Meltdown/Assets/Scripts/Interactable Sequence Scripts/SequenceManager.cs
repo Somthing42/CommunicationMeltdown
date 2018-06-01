@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class SequenceManager : MonoBehaviour {
     [Header("Sequence Information")]
 	public List<Interactable> masterSequence;				//main sequence (contains all interactables)
-    public Queue<Interactable> interactedObjects;			//interacted objects queue
+	public Queue<Interactable> interactedObjects;			//interacted objects queue
+	public List<Interactable> interactedObj;
     public int[] sequenceSizes;								//sequence sizes array
     [HideInInspector]
     public int currentSequence = 0;							//current sequence location
@@ -21,11 +22,17 @@ public class SequenceManager : MonoBehaviour {
     public Text sequenceText;								//text display
 	public Text authText;
     public float stepTransitionSpeed = 3.0f;				//time till display change
+	public float authDispDelay = 10.0f;
+	public float duration = 0.0f;
 
     [Header("Authentication Button Info")]
 	public GameObject lerpObject;							//authenticate button lerp
+	public Transform returnPosition;
+	public float lerpTimeUp = 1.0f;
     [HideInInspector]
     public bool isAnimating = false;						//is the object animated currently
+
+	[Header("Timer")]
 
 
 
@@ -41,6 +48,12 @@ public class SequenceManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+		if (duration < authDispDelay + 1) {
+			duration += Time.deltaTime;
+		}
+		if (duration >= authDispDelay) {
+			authText.text = "Plz Enter \nSequence:";
+		}
     }
 
     public void CreateSequence()											//create sequence function
@@ -83,10 +96,12 @@ public class SequenceManager : MonoBehaviour {
 
             interactedObjects.Dequeue();								//remove the object at the beginning of the queue
             interactedObjects.Enqueue(_interactable);					//add the passed in object to the queue
+			interactedObj.Add(_interactable);
         }
         else             												//else
         {
             interactedObjects.Enqueue(_interactable);					//add the passed in object to the queue
+			interactedObj.Add(_interactable);
         }
 
         if (!PhotonNetwork.isMasterClient)													//if not master client
@@ -120,42 +135,49 @@ public class SequenceManager : MonoBehaviour {
 		if (interactedObjects.Count == currentSequenceSize) {								//if the count of interacted objects is equal to current sequence size
 
 			//if (Input.GetKeyDown (KeyCode.Space)) {											//~~~~if space is pressed~~~~ not sure how to change this to physical button if needed
-				Interactable[] listToCheck = interactedObjects.ToArray ();					//convert interacted objects queue to an array and store in list to check
-				int offset = 0;
-				for (int count = 0; count < currentSequence; count++) {
-					offset += sequenceSizes [count];
+			Interactable[] listToCheck = interactedObjects.ToArray ();					//convert interacted objects queue to an array and store in list to check
+			int offset = 0;
+			for (int count = 0; count < currentSequence; count++) {
+				offset += sequenceSizes [count];
 
-				}
+			}
 
-				
-				for (int count = offset; count < currentSequenceSize + offset; count++) {
-					if (listToCheck [count - offset].itemIndex == masterSequence [count].itemIndex) {
-						authenticated = true;
-					} else {
-						authenticated = false;
-						break;
-					}
-				}
-
-				if (authenticated) {
-					interactedObjects.Clear ();
-					if (currentSequence < sequenceSizes.Length - 1) {
-						currentSequence++;
-						currentSequenceSize = sequenceSizes [currentSequence];
-					}
-					Debug.Log ("Authenticated");
-					authText.text = "Authenticated";
-
+			
+			for (int count = offset; count < currentSequenceSize + offset; count++) {
+				if (listToCheck [count - offset].itemIndex == masterSequence [count].itemIndex) {
+					authenticated = true;
 				} else {
-					interactedObjects.Clear ();
-					Debug.Log ("Rejected");
-					authText.text = "Rejected";
+					authenticated = false;
+					break;
 				}
+			}
+
+			if (authenticated) {
+				interactedObjects.Clear ();
+				interactedObj.Clear ();
+				if (currentSequence < sequenceSizes.Length - 1) {
+					currentSequence++;
+					currentSequenceSize = sequenceSizes [currentSequence];
+				}
+				Debug.Log ("Authenticated");
+				authText.text = "Authenticated";
+				duration = 0.0f;
+
+
+			} else {
+				interactedObjects.Clear ();
+				interactedObj.Clear ();
+				Debug.Log ("Rejected");
+				authText.text = "Rejected";
+				duration = 0.0f;
+			}
 			//}
 		} else {
 			interactedObjects.Clear ();
+			interactedObj.Clear ();
 			Debug.Log ("Rejected");
 			authText.text = "Rejected";
+			duration = 0.0f;
 		}
 	}
 
@@ -187,8 +209,9 @@ public class SequenceManager : MonoBehaviour {
 	{
 		if (isAnimating == false)
 		{
+			Debug.Log ("SeqLerpDown");
 			isAnimating = true;
-			Vector3 start = this.gameObject.transform.position;
+			Vector3 start = returnPosition.position;
 			Vector3 end = new Vector3(start.x, start.y - 0.01f, start.z);
 			float duration = 0.0f;
 			while (duration < time)
@@ -197,7 +220,9 @@ public class SequenceManager : MonoBehaviour {
 				lerpObject.transform.position = Vector3.Lerp(start, end, duration / time);
 				yield return new WaitForSeconds(Time.deltaTime);
 			}
-			StartCoroutine(lerpUp(1.0f));
+
+
+			StartCoroutine(lerpUp(lerpTimeUp));
 			yield return null;
 		}
 		yield return null;
@@ -208,7 +233,7 @@ public class SequenceManager : MonoBehaviour {
 	public IEnumerator lerpUp(float time)
 	{
 
-
+		Debug.Log ("SeqLerpUp");
 		Vector3 start = lerpObject.transform.position;
 		Vector3 end = new Vector3 (start.x, start.y + 0.01f, start.z);
 		float duration = 0.0f;
