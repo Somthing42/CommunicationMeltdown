@@ -66,7 +66,6 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
 
     public Animation BlastDoorAnimation;
 
-    public Animation BlastDoorAnimation;
 
     void Awake()
     {
@@ -92,17 +91,7 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
         PhotonNetwork.OnEventCall += this.ReadyUpEvent;
         PhotonNetwork.OnEventCall += this.ReadyDownEvent;
 
-
-	void Update()
-	{
-		// NOTE(barret): Input for readying up. for testing purposes
-		if (Input.GetKeyDown(KeyCode.F1) && ReadyedUp == false)
-		{
-			//print("F1 pressed");
-			ReadyUpRaise();
-			ReadyedUp = true;
-		}
-
+	}
     void Update()
     {
         // NOTE(barret): Input for readying up. for testing purposes
@@ -322,7 +311,6 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
 		}
 
 	}
-}
 
     public void LeaveRoom()
     {
