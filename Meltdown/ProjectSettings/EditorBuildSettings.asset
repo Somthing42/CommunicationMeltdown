@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Main.unity
     guid: ae9750acb59301b40bd9911432a7683f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MichaelTestScenes.unity
     guid: 5e78c0b2b5759dd4d99c292ecc0cdb44
+  - enabled: 1
+    path: Assets/Scenes/RockyScene.unity
+    guid: ed39d86d84e547a4d81c6e407a46c2da
