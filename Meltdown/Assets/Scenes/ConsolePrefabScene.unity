@@ -3699,6 +3699,24 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 0.58774054
       objectReference: {fileID: 0}
+    - target: {fileID: 212775949726343754, guid: c69cef66ce69c6d45a49f3dfc98985cc,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5f4f1f0c5a532d34983c324760e92467,
+        type: 3}
+    - target: {fileID: 4151109911573994, guid: c69cef66ce69c6d45a49f3dfc98985cc, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.01626972
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151109911573994, guid: c69cef66ce69c6d45a49f3dfc98985cc, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.016269723
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151109911573994, guid: c69cef66ce69c6d45a49f3dfc98985cc, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 4.0674305
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c69cef66ce69c6d45a49f3dfc98985cc, type: 2}
   m_IsPrefabParent: 0
