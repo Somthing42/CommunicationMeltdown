@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4824408504774896}
   - component: {fileID: 33038107342692922}
   - component: {fileID: 23504950595879786}
+  - component: {fileID: 135380427459848786}
   m_Layer: 0
   m_Name: Symbol34
   m_TagString: Untagged
@@ -86,7 +87,7 @@ Transform:
   m_GameObject: {fileID: 1639628294819648}
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0.0114, z: -0.0001}
-  m_LocalScale: {x: 0.005, y: 0.005, z: 1}
+  m_LocalScale: {x: 0.01841455, y: 0.018414563, z: 3.6829126}
   m_Children: []
   m_Father: {fileID: 4824408504774896}
   m_RootOrder: 0
@@ -110,15 +111,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1538204144040186}
-  m_LocalRotation: {x: 0.049308144, y: 0.95019084, z: -0.20120543, w: 0.23285732}
-  m_LocalPosition: {x: 2.7746, y: 1.7839, z: -5.0162}
+  m_LocalRotation: {x: 0.066476874, y: 0.94392794, z: -0.19906712, w: 0.25485912}
+  m_LocalPosition: {x: 2.0053, y: 1.0187, z: -3.8232}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4824408504774896}
   - {fileID: 4473272206334668}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 23.912, y: 152.46, z: 0}
+  m_LocalEulerAnglesHint: {x: 24.186, y: -209.896, z: 1.5100001}
 --- !u!4 &4824408504774896
 Transform:
   m_ObjectHideFlags: 1
@@ -256,9 +257,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 518065204f6ac6a4686491b4e0cd7f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemIndex: 56
+  itemImage: {fileID: 21300000, guid: 6d46177d5e3764c46a3b66b36aca2c6f, type: 3}
+  itemIndex: 41
   isAnimating: 0
   lerpObject: {fileID: 1391030981850802}
+  returnPosition: {fileID: 0}
+--- !u!135 &135380427459848786
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1391030981850802}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.038100004
+  m_Center: {x: 0.0000003054738, y: 0.000000029802322, z: 0.00000023841858}
 --- !u!212 &212464056784479592
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -293,7 +308,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6d46177d5e3764c46a3b66b36aca2c6f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 84176c6b6aded0140a5119e0d7afc086, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
