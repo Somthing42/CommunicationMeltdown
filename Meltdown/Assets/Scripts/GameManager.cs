@@ -311,5 +311,16 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
             this.RoundEndTime = (float)stream.ReceiveNext();
         }
     }
+
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        PhotonNetwork.LoadLevel(0);
+    }
+
 }
 
