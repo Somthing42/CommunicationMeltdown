@@ -64,8 +64,8 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
     private bool ReadyedUp { get; set; }
     private int ReadyUpCount { get; set; }
 
-    public Animation BlastDoorAnimation;
 
+    public Animation BlastDoorAnimation;
 
     void Awake()
     {
@@ -91,7 +91,14 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
         PhotonNetwork.OnEventCall += this.ReadyUpEvent;
         PhotonNetwork.OnEventCall += this.ReadyDownEvent;
 
-	}
+    }
+    void OnDisable()
+    {
+        PhotonNetwork.OnEventCall -= this.CountDownEvent;
+        PhotonNetwork.OnEventCall -= this.ReadyUpEvent;
+        PhotonNetwork.OnEventCall -= this.ReadyDownEvent;
+    }
+
     void Update()
     {
         // NOTE(barret): Input for readying up. for testing purposes
@@ -295,7 +302,19 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
         Instance.currentStep = sentCurrentStep;
     }*/
 
-	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+			stream.SendNext(timerTime);
+        }
+        else
+        {
+			timerTime = (float)stream.ReceiveNext();
+        }
+    }
+
+	/*public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) 
 	{
 		if(stream.isWriting) 
 		{
@@ -313,18 +332,6 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
 
 		}
 
-	}
-
-
-    public void LeaveRoom()
-    {
-        PhotonNetwork.LeaveRoom();
-    }
-
-    public override void OnLeftRoom()
-    {
-        PhotonNetwork.LoadLevel(0);
-    }
-
+	}*/
 }
 
