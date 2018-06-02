@@ -14,9 +14,9 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Main.unity
     guid: ae9750acb59301b40bd9911432a7683f
   - enabled: 1
-    path: Assets/Scenes/BarretScene.unity
-    guid: 141fea24c0d324846b3883ac928c0e87
+    path: Assets/Scenes/MichaelTestScenes.unity
+    guid: 5e78c0b2b5759dd4d99c292ecc0cdb44

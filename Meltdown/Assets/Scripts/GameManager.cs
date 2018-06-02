@@ -312,6 +312,7 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
 
 	}
 
+
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
