@@ -306,7 +306,10 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
 		}
 		else 
 		{
-			GameManager.Instance.timerTime = (float)stream.ReceiveNext();
+			object Next = stream.ReceiveNext();
+			string Serialized = Next.ToString ();
+			float timer = float.Parse (Serialized);
+			GameManager.Instance.timerTime = timer;
 
 		}
 
