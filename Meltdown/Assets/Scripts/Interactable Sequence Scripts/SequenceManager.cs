@@ -26,12 +26,12 @@ public class SequenceManager : MonoBehaviour {
 	public GameObject lerpObject;							//authenticate button lerp
     [HideInInspector]
     public bool isAnimating = false;						//is the object animated currently
-
+	public DisplayTimer timer;
 
 
     // Use this for initialization
     void Start() {
-
+		//timer= 
         consoles = FindObjectsOfType<Console>();							//add all consoles to console array
         CreateSequence();													//run sequence creation function
         currentSequenceSize = sequenceSizes[currentSequence];				//set current sequence size to start of sequence

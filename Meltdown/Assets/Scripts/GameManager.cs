@@ -39,6 +39,8 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
     public float sequenceCompleteReward = 15.0f;
     [Tooltip("How much time players have to compleate a sequence.")]
     public float sequenceActionTime = 10.0f;
+	[HideInInspector]
+	public float timerTime;
 
 
     public float RoundTimeExtension { get { return sequenceCompleteReward - (SQM.currentSequence * sequenceActionTime); } }
@@ -62,6 +64,7 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
     private bool ReadyedUp { get; set; }
     private int ReadyUpCount { get; set; }
 
+    public Animation BlastDoorAnimation;
 
     public Animation BlastDoorAnimation;
 
@@ -89,13 +92,16 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
         PhotonNetwork.OnEventCall += this.ReadyUpEvent;
         PhotonNetwork.OnEventCall += this.ReadyDownEvent;
 
-    }
-    void OnDisable()
-    {
-        PhotonNetwork.OnEventCall -= this.CountDownEvent;
-        PhotonNetwork.OnEventCall -= this.ReadyUpEvent;
-        PhotonNetwork.OnEventCall -= this.ReadyDownEvent;
-    }
+
+	void Update()
+	{
+		// NOTE(barret): Input for readying up. for testing purposes
+		if (Input.GetKeyDown(KeyCode.F1) && ReadyedUp == false)
+		{
+			//print("F1 pressed");
+			ReadyUpRaise();
+			ReadyedUp = true;
+		}
 
     void Update()
     {
@@ -300,16 +306,33 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
         Instance.currentStep = sentCurrentStep;
     }*/
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) 
+	{
+		if(stream.isWriting) 
+		{
+			stream.SendNext(difficulty);
+			stream.SendNext(timerTime);
+
+
+		}
+		else 
+		{
+			GameManager.Instance.timerTime = (float)stream.ReceiveNext();
+
+		}
+
+	}
+}
+
+    public void LeaveRoom()
     {
-        if (stream.isWriting)
-        {
-            stream.SendNext(this.RoundEndTime);
-        }
-        else
-        {
-            this.RoundEndTime = (float)stream.ReceiveNext();
-        }
+        PhotonNetwork.LeaveRoom();
     }
+
+    public override void OnLeftRoom()
+    {
+        PhotonNetwork.LoadLevel(0);
+    }
+
 }
 
