@@ -55,6 +55,8 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
     public float sequenceCompleteReward = 15.0f;
 	[Tooltip("How much time players have to compleate a sequence.")]
     public float sequenceActionTime = 10.0f;
+	[HideInInspector]
+	public float timerTime;
 
 
 	public float RoundTimeExtension { get { return sequenceCompleteReward - (SQM.currentSequence * sequenceActionTime); } }
@@ -81,7 +83,7 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
 	private int ReadyUpCount { get; set; }
 
 
-    public Animation BlastDoorAnimation; 
+    public Animation BlastDoorAnimation;
 
 	void Awake()
 	{
@@ -114,6 +116,7 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
 		PhotonNetwork.OnEventCall -= this.ReadyUpEvent;
 		PhotonNetwork.OnEventCall -= this.ReadyDownEvent;
 	}
+
 
 	void Update()
 	{
@@ -500,16 +503,21 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
 		Instance.currentStep = sentCurrentStep;
 	}
 
-	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) 
 	{
-		if (stream.isWriting)
+		if(stream.isWriting) 
 		{
-			stream.SendNext(this.RoundEndTime);
+			stream.SendNext(difficulty);
+			stream.SendNext(timerTime);
+
+
 		}
-		else
+		else 
 		{
-			this.RoundEndTime = (float)stream.ReceiveNext();
+			GameManager.Instance.timerTime = (float)stream.ReceiveNext();
+
 		}
+
 	}
 }
 
