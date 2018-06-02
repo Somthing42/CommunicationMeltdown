@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TestReturnScript : MonoBehaviour
+public class TestReturnScript : Photon.PunBehaviour
 {
     public void ButtonPressed()
     {
@@ -12,6 +12,11 @@ public class TestReturnScript : MonoBehaviour
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        PhotonNetwork.LoadLevel(0);
     }
 
 }

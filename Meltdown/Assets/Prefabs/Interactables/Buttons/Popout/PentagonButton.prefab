@@ -298,6 +298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 518065204f6ac6a4686491b4e0cd7f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemImage: {fileID: 0}
   itemIndex: 19
   isAnimating: 0
   lerpObject: {fileID: 1662727633738542}
+  returnPosition: {fileID: 4232846620303812}

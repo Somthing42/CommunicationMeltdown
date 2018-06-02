@@ -21,7 +21,10 @@ public class ControllerScript : MonoBehaviour
 	public GameObject temp;
     //public LayerMask teleportPointMask;
 
-    private PlayerTeleportHandler PTH; 
+    private PlayerTeleportHandler PTH;
+
+    
+    public GameObject PlayerMenu; 
     
 	void Awake()
 	{
@@ -127,7 +130,11 @@ public class ControllerScript : MonoBehaviour
 			teleportDestination = Vector3.zero;
 		}
 
-
+        if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
+        {
+            bool IsActive = PlayerMenu.GetActive();
+            PlayerMenu.SetActive(!IsActive);
+        }
 
 	}
 

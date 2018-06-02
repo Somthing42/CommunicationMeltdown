@@ -19,6 +19,7 @@ public class SequenceManager : MonoBehaviour {
     [Header("Display Information")]
     public SpriteRenderer OfficeDisplay;					//sprite display
     public Text sequenceText;								//text display
+	public Text authText;
     public float stepTransitionSpeed = 3.0f;				//time till display change
 
     [Header("Authentication Button Info")]
@@ -118,7 +119,7 @@ public class SequenceManager : MonoBehaviour {
 
 		if (interactedObjects.Count == currentSequenceSize) {								//if the count of interacted objects is equal to current sequence size
 
-			if (Input.GetKeyDown (KeyCode.Space)) {											//~~~~if space is pressed~~~~ not sure how to change this to physical button if needed
+			//if (Input.GetKeyDown (KeyCode.Space)) {											//~~~~if space is pressed~~~~ not sure how to change this to physical button if needed
 				Interactable[] listToCheck = interactedObjects.ToArray ();					//convert interacted objects queue to an array and store in list to check
 				int offset = 0;
 				for (int count = 0; count < currentSequence; count++) {
@@ -143,14 +144,18 @@ public class SequenceManager : MonoBehaviour {
 						currentSequenceSize = sequenceSizes [currentSequence];
 					}
 					Debug.Log ("Authenticated");
-					sequenceText.text = "Authenticated";
+					authText.text = "Authenticated";
 
 				} else {
 					interactedObjects.Clear ();
 					Debug.Log ("Rejected");
-					sequenceText.text = "Rejected";
+					authText.text = "Rejected";
 				}
-			}
+			//}
+		} else {
+			interactedObjects.Clear ();
+			Debug.Log ("Rejected");
+			authText.text = "Rejected";
 		}
 	}
 
