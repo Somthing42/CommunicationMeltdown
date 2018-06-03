@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class ControllerScript : MonoBehaviour
 {
@@ -23,8 +24,9 @@ public class ControllerScript : MonoBehaviour
 
     private PlayerTeleportHandler PTH;
 
-    
-    public GameObject PlayerMenu; 
+
+    public GameObject PlayerMenu;
+    public Text TestText;
     
 	void Awake()
 	{
@@ -80,7 +82,7 @@ public class ControllerScript : MonoBehaviour
 		// 3
 		if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
 		{
-            GameManager.Instance.infoPanel.AddLine(temp.name + " was it with tag " + temp.tag);
+            if(temp != null ) GameManager.Instance.infoPanel.AddLine(temp.name + " was it with tag " + temp.tag);
             if (teleportDestination != Vector3.zero && PTH.CanTeleport)
 			{
                 //GameManager.Instance.infoPanel.AddLine("Teleporting");
@@ -145,5 +147,12 @@ public class ControllerScript : MonoBehaviour
 		pointerTransform.LookAt(hitPoint);
 		pointerTransform.localScale = new Vector3(pointerTransform.localScale.x, pointerTransform.localScale.y, hit.distance);
 	}
+
+    int TestCount = 0;
+    public void TestMenuResponse()
+    {
+        TestCount++;
+        TestText.text = TestCount.ToString() ; 
+    }
 
 }

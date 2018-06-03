@@ -34,6 +34,8 @@ public class RoomList : MonoBehaviour
         foreach (RoomInfo Info in Rooms)
         {
             GameObject entry = Instantiate(ListEntryPrefab, new Vector3(0, currentposition, 0), Quaternion.identity, this.transform);
+            entry.transform.position = transform.position;
+            entry.transform.rotation = transform.rotation;
             EntryObject entryatt = entry.GetComponent<EntryObject>();
 
             Text NameText = entryatt.Name;

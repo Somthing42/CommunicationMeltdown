@@ -28,7 +28,7 @@ public class PlayerManager : Photon.PunBehaviour
 		instance = this;
 	}
 
-#if true
+#if false
 	private void Start()
 	{
 
@@ -39,18 +39,10 @@ public class PlayerManager : Photon.PunBehaviour
 			GameManager.Instance.infoPanel.AddLine("MasterClient NewPlayer");
 		}
 	}
-#else
-    public override void OnJoinedRoom() {
-        if (PhotonNetwork.isMasterClient)
-        {
-            GameManager.Instance.infoPanel.AddLine("MasterClient NewPlayer");
-            NewPlayer(0);
-        }
-    }
 
 #endif
-
-	public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
+#if false 
+    public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
 	{
 		if (PhotonNetwork.isMasterClient)
 		{
@@ -59,9 +51,10 @@ public class PlayerManager : Photon.PunBehaviour
 			photonView.RPC("NewPlayer", newPlayer, idx);
 		}
 	}
+#endif 
 
 	[PunRPC]
-	void NewPlayer(int idx)
+	public void NewPlayer(int idx)
 	{
 
 		//GameManager.Instance.infopanel.AddLine("NewPlayer gets called. idx: " + idx.ToString());
