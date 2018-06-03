@@ -300,7 +300,7 @@ MonoBehaviour:
   CountDownText: {fileID: 1511910058}
   PopupCanvas: {fileID: 1629933875199098, guid: 4b45951cd7c4fa2439cd68a8e39eb04c,
     type: 2}
-  GameScene: MichaelTestScenes
+  GameScene: RockyScene
 --- !u!4 &418738678
 Transform:
   m_ObjectHideFlags: 0
