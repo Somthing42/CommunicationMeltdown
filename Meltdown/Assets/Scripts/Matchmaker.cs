@@ -14,8 +14,6 @@ public class Matchmaker : Photon.PunBehaviour
 
     public RoomList UIList;
 
-    public PlayerRoom UIRoom;
-
     public GameObject CreateRoomButton;
 
     public GameObject GetRoomsButton;
@@ -34,7 +32,6 @@ public class Matchmaker : Photon.PunBehaviour
 
     public string GameScene = "Game";
 
-    public RectTransform MatchmakerTrans; 
 
 
 
@@ -92,6 +89,7 @@ public class Matchmaker : Photon.PunBehaviour
         {
             print("Rooms have stuff in them");
             AddLine("There are " + Rooms.Length.ToString() + " rooms online");
+            UIList.gameObject.SetActive(true);
             UIList.DisplayList(Rooms);
 
         }
@@ -201,17 +199,6 @@ public class Matchmaker : Photon.PunBehaviour
         InRoom();
     }
 
-    public override void OnLeftRoom()
-    {
-        AddLine("You left the room");
-        UIList.gameObject.SetActive(true);
-        UIRoom.gameObject.SetActive(false);
-        CountdownStarted = false;
-        StopCoroutine(CountdownCoroutine);
-        CountDownText.gameObject.SetActive(false);
-
-    }
-
 
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
     {
@@ -227,25 +214,6 @@ public class Matchmaker : Photon.PunBehaviour
 
 
     }
-
-
-
-    public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
-    {
-
-        UIRoom.FillPlayerSlot(PhotonNetwork.playerList);
-
-        AddLine("Player " + otherPlayer.NickName + " disconnected");
-
-        if (PhotonNetwork.room.PlayerCount < PlayerCountToStartMatch && CountdownStarted == true)
-        {
-            CountdownStarted = false;
-            StopCoroutine(CountdownCoroutine);
-            CountDownText.gameObject.SetActive(false);
-            AddLine("Countdown Ended");
-        }
-    }
-
 
 
 #endregion
@@ -305,7 +273,6 @@ public class Matchmaker : Photon.PunBehaviour
 
     public void RoomNameCaptureInputField(string Value)
     {
-        
         RoomNameStringCapture = Value;
     }
 
@@ -313,8 +280,6 @@ public class Matchmaker : Photon.PunBehaviour
     {
         AddLine("Try Create Room Button");
         CreateRoomEntry(RoomNameStringCapture);
-
-        //Destroy(this.gameObject);
 
     }
 }
