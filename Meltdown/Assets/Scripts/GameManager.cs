@@ -57,6 +57,7 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
     [HideInInspector]
     public InfoPanel infoPanel;
 
+    // NOTE(barret): Why do we need these getters and setters??? They don't do anything.
     private bool CountdownStarted { get; set; }
     private bool GameStarted { get; set; }
     private bool ReadyedUp { get; set; }
@@ -108,6 +109,21 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
         }
 
         if (Input.GetKeyDown(KeyCode.F2) && ReadyedUp == true)
+        {
+            ReadyDownRaise();
+            ReadyedUp = false;
+        }
+    }
+
+    public void ReadyUpToggle()
+    {
+        if (ReadyedUp == false)
+        {
+            //print("F1 pressed");
+            ReadyUpRaise();
+            ReadyedUp = true;
+        }
+        else if(ReadyedUp == true)
         {
             ReadyDownRaise();
             ReadyedUp = false;
