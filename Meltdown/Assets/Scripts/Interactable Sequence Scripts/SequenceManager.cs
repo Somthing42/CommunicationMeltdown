@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SequenceManager : MonoBehaviour {
+public class SequenceManager :  Photon.MonoBehaviour {
     [Header("Sequence Information")]
 	public List<Interactable> masterSequence;				//main sequence (contains all interactables)
 	public Queue<Interactable> interactedObjects;			//interacted objects queue
@@ -40,11 +40,18 @@ public class SequenceManager : MonoBehaviour {
 	public float gameCounter;
 	public Sprite winSprite;
 
+	public Interactable[] testSeq;
+
     // Use this for initialization
     void Start() {
         gameCounter = 0;                                                    //set counter to zero at start
         consoles = FindObjectsOfType<Console>();							//add all consoles to console array
         CreateSequence();													//run sequence creation function
+		testSeq[0] = masterSequence[0];
+		testSeq [1] = masterSequence [1];
+		testSeq[2] = masterSequence[2];
+		testSeq[3] = masterSequence[3];
+		testSeq[4] = masterSequence[4];
         currentSequenceSize = sequenceSizes[currentSequence];				//set current sequence size to start of sequence
         interactedObjects = new Queue<Interactable>(currentSequenceSize);	//create new queue for interacted objects
         StartCoroutine("DisplaySequenceToRenderer");						//start display coroutine
@@ -89,6 +96,24 @@ public class SequenceManager : MonoBehaviour {
         }
     }
 
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	{
+		if (stream.isWriting)
+		{
+			//stream.SendNext(this.OfficeDisplay);
+			stream.SendNext(this.testSeq);
+		}
+		else
+		{
+			//this.OfficeDisplay = (SpriteRenderer)stream.ReceiveNext();
+			this.testSeq = (Interactable)stream.ReceiveNext();
+			masterSequence [0] = testSeq [0];
+			masterSequence [1] = testSeq [1];
+			masterSequence [2] = testSeq [2];
+			masterSequence [3] = testSeq [3];
+			masterSequence [4] = testSeq [4];
+		}
+	}
 
 
     // NOTE(barret): This needs to be tested. I don't know how reliable this is. 
@@ -216,17 +241,7 @@ public class SequenceManager : MonoBehaviour {
 		}
 	}
 
-	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-	{
-		if (stream.isWriting)
-		{
-			stream.SendNext(this.OfficeDisplay);
-		}
-		else
-		{
-			this.OfficeDisplay = (SpriteRenderer)stream.ReceiveNext();
-		}
-	}
+
 
 	public IEnumerator lerpDown(float time)
 	{
