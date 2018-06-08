@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SequenceManager :  Photon.MonoBehaviour {
+public class SequenceManager :  Photon.PunBehaviour, IPunObservable {
     [Header("Sequence Information")]
 	public List<Interactable> masterSequence;				//main sequence (contains all interactables)
 	public Queue<Interactable> interactedObjects;			//interacted objects queue
@@ -40,18 +40,14 @@ public class SequenceManager :  Photon.MonoBehaviour {
 	public float gameCounter;
 	public Sprite winSprite;
 
-	public Interactable[] testSeq;
+	public Interactable[] testSeq= new Interactable[5];
 
     // Use this for initialization
     void Start() {
         gameCounter = 0;                                                    //set counter to zero at start
         consoles = FindObjectsOfType<Console>();							//add all consoles to console array
         CreateSequence();													//run sequence creation function
-		testSeq[0] = masterSequence[0];
-		testSeq [1] = masterSequence [1];
-		testSeq[2] = masterSequence[2];
-		testSeq[3] = masterSequence[3];
-		testSeq[4] = masterSequence[4];
+
         currentSequenceSize = sequenceSizes[currentSequence];				//set current sequence size to start of sequence
         interactedObjects = new Queue<Interactable>(currentSequenceSize);	//create new queue for interacted objects
         StartCoroutine("DisplaySequenceToRenderer");						//start display coroutine
@@ -94,6 +90,11 @@ public class SequenceManager :  Photon.MonoBehaviour {
             masterSequence[randomValue] = masterSequence[count];						//place the object at count location into the randomVal location
             masterSequence[count] = holder;												//replace the temp object into the master sequence at count location
         }
+		testSeq[0] = masterSequence[0];
+		testSeq [1] = masterSequence [1];
+		testSeq[2] = masterSequence[2];
+		testSeq[3] = masterSequence[3];
+		testSeq[4] = masterSequence[4];
     }
 
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -106,7 +107,7 @@ public class SequenceManager :  Photon.MonoBehaviour {
 		else
 		{
 			//this.OfficeDisplay = (SpriteRenderer)stream.ReceiveNext();
-			this.testSeq = (Interactable)stream.ReceiveNext();
+			this.testSeq = (Interactable[])stream.ReceiveNext();
 			masterSequence [0] = testSeq [0];
 			masterSequence [1] = testSeq [1];
 			masterSequence [2] = testSeq [2];
