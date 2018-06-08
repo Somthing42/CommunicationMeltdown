@@ -23,7 +23,8 @@ public class SequenceManager : MonoBehaviour {
 	public Text authText;
     public float stepTransitionSpeed = 3.0f;				//time till display change
 	public float authDispDelay = 10.0f;
-	public float duration = 0.0f;
+	[HideInInspector]
+	public float authDuration = 0.0f;
 
     [Header("Authentication Button Info")]
 	public GameObject lerpObject;							//authenticate button lerp
@@ -33,12 +34,15 @@ public class SequenceManager : MonoBehaviour {
     public bool isAnimating = false;						//is the object animated currently
 
 	[Header("Timer")]
+	public float timerStuff;
 
-
+	[Header("Win Conditions")]
+	public float gameCounter;
+	public Sprite winSprite;
 
     // Use this for initialization
     void Start() {
-
+        gameCounter = 0;                                                    //set counter to zero at start
         consoles = FindObjectsOfType<Console>();							//add all consoles to console array
         CreateSequence();													//run sequence creation function
         currentSequenceSize = sequenceSizes[currentSequence];				//set current sequence size to start of sequence
@@ -48,11 +52,14 @@ public class SequenceManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-		if (duration < authDispDelay + 1) {
-			duration += Time.deltaTime;
+		if (authDuration < authDispDelay + 1) {
+			authDuration += Time.deltaTime;
 		}
-		if (duration >= authDispDelay) {
+		if (authDuration >= authDispDelay) {
 			authText.text = "Plz Enter \nSequence:";
+		}
+		if (authDuration >= 2) {
+			WinCase ();
 		}
     }
 
@@ -82,12 +89,15 @@ public class SequenceManager : MonoBehaviour {
         }
     }
 
+
+
     // NOTE(barret): This needs to be tested. I don't know how reliable this is. 
     /* I'm not exactly sure how Photon does sycronization, but there might be a 
      * problem with desyced packets. If two players use an interactable at around 
      * the same time and send their new list to the master, which message does the 
      * master use to update first. 
     */
+
     void AddUsedObjectToList(Interactable _interactable)				//add used object function
     {
 
@@ -161,15 +171,16 @@ public class SequenceManager : MonoBehaviour {
 				}
 				Debug.Log ("Authenticated");
 				authText.text = "Authenticated";
-				duration = 0.0f;
-
+                gameCounter++;                                                      //increae counter for every successful sequence
+				authDuration = 0.0f;
+				return;
 
 			} else {
 				interactedObjects.Clear ();
 				interactedObj.Clear ();
 				Debug.Log ("Rejected");
 				authText.text = "Rejected";
-				duration = 0.0f;
+				authDuration = 0.0f;
 			}
 			//}
 		} else {
@@ -177,7 +188,7 @@ public class SequenceManager : MonoBehaviour {
 			interactedObj.Clear ();
 			Debug.Log ("Rejected");
 			authText.text = "Rejected";
-			duration = 0.0f;
+			authDuration = 0.0f;
 		}
 	}
 
@@ -202,6 +213,18 @@ public class SequenceManager : MonoBehaviour {
 
 			}
 
+		}
+	}
+
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	{
+		if (stream.isWriting)
+		{
+			stream.SendNext(this.OfficeDisplay);
+		}
+		else
+		{
+			this.OfficeDisplay = (SpriteRenderer)stream.ReceiveNext();
 		}
 	}
 
@@ -248,4 +271,20 @@ public class SequenceManager : MonoBehaviour {
 		yield return null;
 
 	}
+
+	public void WinCase() {
+		if (gameCounter >= sequenceSizes.Length) {
+			bool temp = true;
+			if (temp) {
+				StopCoroutine ("DisplaySequenceToRenderer");
+				authText.text = "MELTDOWN \nAVERTED!";
+				sequenceText.text = "GAME \nWIN!";
+				OfficeDisplay.sprite = winSprite;
+				//TODO: win game
+				temp = false;
+				authDuration = 20.0f;
+			}
+		}
+	}
+		
 }
