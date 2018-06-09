@@ -39,8 +39,8 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
     public float sequenceCompleteReward = 15.0f;
     [Tooltip("How much time players have to compleate a sequence.")]
     public float sequenceActionTime = 10.0f;
-	[HideInInspector]
-	public float timerTime;
+    [HideInInspector]
+    public float timerTime;
 
 
     public float RoundTimeExtension { get { return sequenceCompleteReward - (SQM.currentSequence * sequenceActionTime); } }
@@ -125,7 +125,7 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
             ReadyUpRaise();
             ReadyedUp = true;
         }
-        else if(ReadyedUp == true)
+        else if (ReadyedUp == true)
         {
             ReadyDownRaise();
             ReadyedUp = false;
@@ -297,51 +297,40 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
 	
 #endif
 
-   /* [PunRPC]
-    void SendButtonPress(int buttonValue)
-    {
-        // Create a new player at the appropriate spawn spot
-        CheckButtonInput(buttonValue);
-    }
+    /* [PunRPC]
+     void SendButtonPress(int buttonValue)
+     {
+         // Create a new player at the appropriate spawn spot
+         CheckButtonInput(buttonValue);
+     }
 
-    [PunRPC]
-    void updateCurrentSequenceInformation(int sentCurrentSequence)
-    {
-        // Create a new player at the appropriate spawn spot
-        Instance.currentSequence = sentCurrentSequence;
-    }
+     [PunRPC]
+     void updateCurrentSequenceInformation(int sentCurrentSequence)
+     {
+         // Create a new player at the appropriate spawn spot
+         Instance.currentSequence = sentCurrentSequence;
+     }
 
-    [PunRPC]
-    void updateCurrentStepInformation(int sentCurrentStep)
-    {
-        // Create a new player at the appropriate spawn spot
-        Instance.currentStep = sentCurrentStep;
-    }*/
+     [PunRPC]
+     void updateCurrentStepInformation(int sentCurrentStep)
+     {
+         // Create a new player at the appropriate spawn spot
+         Instance.currentStep = sentCurrentStep;
+     }*/
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)
         {
-			stream.SendNext(timerTime);
+            stream.SendNext(timerTime);
         }
         else
         {
-			timerTime = (float)stream.ReceiveNext();
+            timerTime = (float)stream.ReceiveNext();
         }
     }
 
 
 
-		}
-		else 
-		{
-			object Next = stream.ReceiveNext();
-			string Serialized = Next.ToString ();
-			float timer = float.Parse (Serialized);
-			GameManager.Instance.timerTime = timer;
-
-		}
-
-	}*/
 }
 
