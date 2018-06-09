@@ -2,6 +2,8 @@
 
 public class PlayerManager : Photon.PunBehaviour
 {
+    public GameObject LobbySpawn;
+
 	public GameObject[] spawns;
 
 	public GameObject[] breakroomspawns;

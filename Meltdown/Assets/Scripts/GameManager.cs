@@ -238,7 +238,7 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
     {
         // TODO(barret): Need to teleport the players into the scene
         byte evCode = 4;
-        byte[] content = new byte[] { 1, 2, 5, 10 };
+        string content = "GameStart";
         bool reliable = true;
 
         RaiseEventOptions Options = new RaiseEventOptions()
@@ -328,16 +328,7 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
         }
     }
 
-    public void LeaveRoom()
-    {
-        
-        PhotonNetwork.LeaveRoom();
-    }
 
-    public override void OnLeftRoom()
-    {
-        PhotonNetwork.LoadLevel(0);
-    }
 
 }
 
