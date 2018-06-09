@@ -14,8 +14,6 @@ public class Matchmaker : Photon.PunBehaviour
 
     public RoomList UIList;
 
-    public PlayerRoom UIRoom;
-
     public GameObject CreateRoomButton;
 
     public GameObject GetRoomsButton;
@@ -30,9 +28,10 @@ public class Matchmaker : Photon.PunBehaviour
 
     bool CountdownStarted = false;
 
-    public GameObject PopupCanvas;
+    public GameObject RoomNameInputWindow;
 
     public string GameScene = "Game";
+
 
 
 
@@ -90,6 +89,7 @@ public class Matchmaker : Photon.PunBehaviour
         {
             print("Rooms have stuff in them");
             AddLine("There are " + Rooms.Length.ToString() + " rooms online");
+            UIList.gameObject.SetActive(true);
             UIList.DisplayList(Rooms);
 
         }
@@ -102,6 +102,7 @@ public class Matchmaker : Photon.PunBehaviour
 
     public void CreateRoomEntry(string RoomName)
     {
+        
         // NOTE(barret): CreateRoom will place you in the room as soon as you create it
         if (PhotonNetwork.CreateRoom(RoomName, new RoomOptions() { MaxPlayers = 4 }, null))
         {
@@ -116,7 +117,8 @@ public class Matchmaker : Photon.PunBehaviour
 
     public void CreateRoomWindow()
     {
-        GameObject Popup = Instantiate(PopupCanvas, null);
+        RoomNameInputWindow.SetActive(true);
+        
     }
 
     public void LeaveRoom()
@@ -134,33 +136,16 @@ public class Matchmaker : Photon.PunBehaviour
 
     void InRoom()
     {
-#if false
-        UIList.gameObject.SetActive(false);
-        UIRoom.gameObject.SetActive(true);
-        LeaveRoomButton.SetActive(true);
-        CreateRoomButton.SetActive(false);
-        GetRoomsButton.SetActive(false);
-        UIRoom.FillPlayerSlot(PhotonNetwork.playerList);
 
+        //PhotonNetwork.LoadLevel(GameScene);
 
-        if (PhotonNetwork.room.PlayerCount >= PlayerCountToStartMatch && CountdownStarted == false)
+        if (PhotonNetwork.isMasterClient)
         {
-            AddLine("Raising Countdown event");
-
-
-            byte evCode = 0;
-            byte[] content = new byte[] { 1, 2, 5, 10 };
-            bool reliable = true;
-
-            RaiseEventOptions Options = new RaiseEventOptions();
-            Options.Receivers = ReceiverGroup.All;
-            PhotonNetwork.RaiseEvent(evCode, content, reliable, Options);
-
-
+            PlayerManager PM = GetComponent<PlayerManager>();
+            PM.NewPlayer(0);
+            GameManager.Instance.infoPanel.AddLine("MasterClient NewPlayer");
         }
-#else
-        PhotonNetwork.LoadLevel(GameScene);
-#endif 
+ 
     }
 
     void ConnectedToMaster()
@@ -214,22 +199,16 @@ public class Matchmaker : Photon.PunBehaviour
         InRoom();
     }
 
-    public override void OnLeftRoom()
-    {
-        AddLine("You left the room");
-        UIList.gameObject.SetActive(true);
-        UIRoom.gameObject.SetActive(false);
-        CountdownStarted = false;
-        StopCoroutine(CountdownCoroutine);
-        CountDownText.gameObject.SetActive(false);
-
-    }
-
 
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
     {
-
-        UIRoom.FillPlayerSlot(PhotonNetwork.playerList);
+        if (PhotonNetwork.isMasterClient)
+        {
+            Debug.Log("New Player :" + (PhotonNetwork.otherPlayers.Length + 1));
+            var idx = PhotonNetwork.otherPlayers.Length;
+            photonView.RPC("NewPlayer", newPlayer, idx);
+        }
+        //UIRoom.FillPlayerSlot(PhotonNetwork.playerList);
 
         AddLine("Player " + newPlayer.NickName + " connected");
 
@@ -237,26 +216,7 @@ public class Matchmaker : Photon.PunBehaviour
     }
 
 
-
-    public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
-    {
-
-        UIRoom.FillPlayerSlot(PhotonNetwork.playerList);
-
-        AddLine("Player " + otherPlayer.NickName + " disconnected");
-
-        if (PhotonNetwork.room.PlayerCount < PlayerCountToStartMatch && CountdownStarted == true)
-        {
-            CountdownStarted = false;
-            StopCoroutine(CountdownCoroutine);
-            CountDownText.gameObject.SetActive(false);
-            AddLine("Countdown Ended");
-        }
-    }
-
-
-
-#endregion
+    #endregion
 
     int LineCount = 0;
     public void AddLine(string Line)
@@ -309,5 +269,17 @@ public class Matchmaker : Photon.PunBehaviour
         StartGame();
     }
 
+    string RoomNameStringCapture;
 
+    public void RoomNameCaptureInputField(string Value)
+    {
+        RoomNameStringCapture = Value;
+    }
+
+    public void RoomNameEnter()
+    {
+        AddLine("Try Create Room Button");
+        CreateRoomEntry(RoomNameStringCapture);
+
+    }
 }

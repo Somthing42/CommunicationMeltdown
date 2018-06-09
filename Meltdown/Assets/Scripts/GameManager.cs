@@ -59,6 +59,7 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
     [HideInInspector]
     public InfoPanel infoPanel;
 
+    // NOTE(barret): Why do we need these getters and setters??? They don't do anything.
     private bool CountdownStarted { get; set; }
     private bool GameStarted { get; set; }
     private bool ReadyedUp { get; set; }
@@ -110,6 +111,21 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
         }
 
         if (Input.GetKeyDown(KeyCode.F2) && ReadyedUp == true)
+        {
+            ReadyDownRaise();
+            ReadyedUp = false;
+        }
+    }
+
+    public void ReadyUpToggle()
+    {
+        if (ReadyedUp == false)
+        {
+            //print("F1 pressed");
+            ReadyUpRaise();
+            ReadyedUp = true;
+        }
+        else if(ReadyedUp == true)
         {
             ReadyDownRaise();
             ReadyedUp = false;
@@ -224,7 +240,7 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
     {
         // TODO(barret): Need to teleport the players into the scene
         byte evCode = 4;
-        byte[] content = new byte[] { 1, 2, 5, 10 };
+        string content = "GameStart";
         bool reliable = true;
 
         RaiseEventOptions Options = new RaiseEventOptions()
@@ -314,12 +330,6 @@ public class GameManager : Photon.PunBehaviour, IPunObservable
         }
     }
 
-	/*public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) 
-	{
-		if(stream.isWriting) 
-		{
-			stream.SendNext(difficulty);
-			stream.SendNext(timerTime);
 
 
 		}
