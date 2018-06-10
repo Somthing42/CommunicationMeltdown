@@ -17,7 +17,6 @@ public class SequenceManager :  Photon.PunBehaviour, IPunObservable {
    
     public Console[] consoles;								//console objects array
 
-	public Console[] consoles;								//console objects array
 
 	[Header("Display Information")]
 	public SpriteRenderer OfficeDisplay;					//sprite display
