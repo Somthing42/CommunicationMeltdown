@@ -369,6 +369,7 @@ ModelImporter:
     2300114: polySurface98
     2300116: polySurface99
     2300118: pSphere1
+    2300120: pPlane89
     3300000: polySurface1
     3300002: polySurface100
     3300004: polySurface101
@@ -429,6 +430,7 @@ ModelImporter:
     3300114: polySurface98
     3300116: polySurface99
     3300118: pSphere1
+    3300120: pPlane89
     4300000: polySurface1
     4300002: polySurface2
     4300004: pSphere1
@@ -489,6 +491,7 @@ ModelImporter:
     4300114: polySurface124
     4300116: polySurface125
     4300118: polySurface126
+    4300120: pPlane89
     9500000: //RootNode
   externalObjects: {}
   materials:

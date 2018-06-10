@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4844993285679428}
   - component: {fileID: 33427367588681124}
   - component: {fileID: 23329511552927988}
+  - component: {fileID: 135093580149745248}
   m_Layer: 0
   m_Name: Symbol4
   m_TagString: Untagged
@@ -86,7 +87,7 @@ Transform:
   m_GameObject: {fileID: 1111198850799616}
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0.0114, z: -0.0001}
-  m_LocalScale: {x: 0.004, y: 0.004, z: 1}
+  m_LocalScale: {x: 0.015068637, y: 0.015068641, z: 3.76716}
   m_Children: []
   m_Father: {fileID: 4844993285679428}
   m_RootOrder: 0
@@ -97,15 +98,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1518603666331852}
-  m_LocalRotation: {x: 0.18828912, y: -0, z: -0, w: 0.98211366}
-  m_LocalPosition: {x: 0.401, y: 1.7708, z: 5.6314}
+  m_LocalRotation: {x: 0.20794827, y: -0.040001146, z: 0.00370159, w: 0.9773146}
+  m_LocalPosition: {x: -0.2954, y: 1.0385, z: 4.0597}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4844993285679428}
   - {fileID: 4555105901704982}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 21.706001, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 24.001001, y: -4.813, z: -0.59000003}
 --- !u!4 &4555105901704982
 Transform:
   m_ObjectHideFlags: 1
@@ -256,11 +257,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 518065204f6ac6a4686491b4e0cd7f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemImage: {fileID: 0}
-  itemIndex: 26
+  itemImage: {fileID: 21300000, guid: a0f7aaee34bccf645a64d7439948e32a, type: 3}
+  itemIndex: 69
   isAnimating: 0
   lerpObject: {fileID: 1342019116259862}
-  returnPosition: {fileID: 4844993285679428}
+  returnPosition: {fileID: 0}
+--- !u!135 &135093580149745248
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1342019116259862}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.038100008
+  m_Center: {x: 0.00000003725291, y: 0.00000074505806, z: 0.00000047683716}
 --- !u!212 &212584936748378574
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -295,7 +308,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bb067ff09c0e5024585986615f3b988c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a0f7aaee34bccf645a64d7439948e32a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
