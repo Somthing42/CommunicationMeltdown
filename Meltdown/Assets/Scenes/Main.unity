@@ -1202,8 +1202,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa6163fe06d585349a5d7bc500d29cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InfoPanelText: {fileID: 0}
-  InfoCanvas: {fileID: 0}
+  InfoPanelText: {fileID: 710283985}
+  InfoCanvas: {fileID: 1479057896}
 --- !u!114 &225294766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1219,14 +1219,15 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 0
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 225294768}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 8
-  instantiationId: 8
+  viewIdField: 6
+  instantiationId: 6
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &225294767
@@ -1244,9 +1245,9 @@ MonoBehaviour:
   MinimumPlayers: 2
   difficulty: 0
   PossibleRoundTimes:
-  - 0
-  - 0
-  - 0
+  - 300
+  - 180
+  - 60
   PossibleSequenceCompleteRewardTimes:
   - 0
   - 0
@@ -1255,14 +1256,14 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  startingRoundTime: 300
-  sequenceCompleteReward: 15
+  startingRoundTime: 60
+  sequenceCompleteReward: 5
   sequenceActionTime: 10
   timerTime: 0
-  leftController: {fileID: 0}
-  rightController: {fileID: 0}
-  VRTKLeftController: {fileID: 0}
-  VRTKRightController: {fileID: 0}
+  leftController: {fileID: 970665238}
+  rightController: {fileID: 970665235}
+  VRTKLeftController: {fileID: 1220851110}
+  VRTKRightController: {fileID: 1669400550}
   RotationZones: []
   infoPanel: {fileID: 0}
   BlastDoorAnimation: {fileID: 0}
@@ -1654,7 +1655,8 @@ MonoBehaviour:
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 7
   instantiationId: 7
@@ -1703,11 +1705,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   masterSequence: []
   interactedObj: []
-  sequenceSizes: 
+  sequenceSizes: 040000000500000006000000
   currentSequence: 0
   currentSequenceSize: 0
   consoles: []
-  OfficeDisplay: {fileID: 0}
+  OfficeDisplay: {fileID: 1029442568}
   sequenceText: {fileID: 0}
   authText: {fileID: 0}
   stepTransitionSpeed: 3
@@ -5296,7 +5298,7 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f35fa249b5008c44ac2998be6f82d4d, type: 2}
   m_IsPrefabParent: 0
---- !u!43 &842520006
+--- !u!43 &839665410
 Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -5999,12 +6001,12 @@ Prefab:
         type: 2}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 842520006}
+      objectReference: {fileID: 839665410}
     - target: {fileID: 23366053154022638, guid: 8063fe774e7fe1145a1ae0f5731670fb,
         type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1677628314}
+      objectReference: {fileID: 972320233}
     - target: {fileID: 4840521975316478, guid: 8063fe774e7fe1145a1ae0f5731670fb, type: 2}
       propertyPath: m_LocalPosition.y
       value: 0
@@ -6228,7 +6230,8 @@ MonoBehaviour:
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 11
   instantiationId: 11
@@ -6380,6 +6383,45 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.3000011, y: 0, z: 2.550001}
   m_Center: {x: 0, y: 0.01, z: 0}
+--- !u!114 &970665252 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114216081278398670, guid: 8063fe774e7fe1145a1ae0f5731670fb,
+    type: 2}
+  m_PrefabInternal: {fileID: 970665229}
+  m_Script: {fileID: 11500000, guid: eeda6d41317f444b900e374895f14e95, type: 3}
+--- !u!21 &972320233
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &989106678
 GameObject:
   m_ObjectHideFlags: 0
@@ -7226,14 +7268,15 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 0
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 4032317369847516, guid: 6fe055414f143e042a5055e1311c6c5d, type: 2}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 6
-  instantiationId: 6
+  viewIdField: 10
+  instantiationId: 10
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &1097683042
@@ -7248,9 +7291,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LobbySpawn: {fileID: 0}
-  spawns: []
-  breakroomspawns: []
-  playerAvatar: {fileID: 0}
+  spawns:
+  - {fileID: 896603372}
+  - {fileID: 1924456134}
+  - {fileID: 1540126311}
+  - {fileID: 2055565458}
+  breakroomspawns:
+  - {fileID: 1203055890}
+  - {fileID: 1605568042}
+  - {fileID: 326088578}
+  - {fileID: 478658041}
+  playerAvatar: {fileID: 1396155991360138, guid: 6fe055414f143e042a5055e1311c6c5d,
+    type: 2}
   CameraRig: {fileID: 0}
 --- !u!114 &1097683043
 MonoBehaviour:
@@ -10308,11 +10360,12 @@ MonoBehaviour:
   persistOnLoad: 0
   autoManageScriptDefines: 1
   activeScriptingDefineSymbolsWithoutSDKClasses: []
-  scriptAliasLeftController: {fileID: 0}
-  scriptAliasRightController: {fileID: 0}
+  scriptAliasLeftController: {fileID: 1220851110}
+  scriptAliasRightController: {fileID: 1669400550}
   autoManageVRSettings: 1
   autoLoadSetup: 1
-  setups: []
+  setups:
+  - {fileID: 970665252}
 --- !u!4 &1491313133
 Transform:
   m_ObjectHideFlags: 0
@@ -11980,8 +12033,8 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents: []
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 1
-  instantiationId: 1
+  viewIdField: 3
+  instantiationId: 3
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!1 &1632806694
@@ -12525,39 +12578,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   customColliderContainer: {fileID: 0}
---- !u!21 &1677628314
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1686951623
 GameObject:
   m_ObjectHideFlags: 0

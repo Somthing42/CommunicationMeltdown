@@ -273,15 +273,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerCountToStartMatch: 2
   UIList: {fileID: 315961100}
-  UIRoom: {fileID: 1885172070}
   CreateRoomButton: {fileID: 379237590}
   GetRoomsButton: {fileID: 1728361519}
   LeaveRoomButton: {fileID: 211173054}
   InfoPanelText: {fileID: 1370795867}
   CountDownText: {fileID: 1511910058}
-  PopupCanvas: {fileID: 1629933875199098, guid: 4b45951cd7c4fa2439cd68a8e39eb04c,
-    type: 2}
-  GameScene: RockyScene
+  RoomNameInputWindow: {fileID: 0}
+  GameScene: Main
 --- !u!4 &418738678
 Transform:
   m_ObjectHideFlags: 0
@@ -535,9 +533,3 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1885172070 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114257868046360806, guid: ddb160c1ca4cde84587ac97f1100ba70,
-    type: 2}
-  m_PrefabInternal: {fileID: 65113656}
-  m_Script: {fileID: 11500000, guid: 03f457b3807d132499748f12044cf10c, type: 3}
