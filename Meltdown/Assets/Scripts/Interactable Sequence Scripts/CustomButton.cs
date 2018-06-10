@@ -32,7 +32,7 @@ public class CustomButton : Interactable {
 				lerpObject.transform.position = Vector3.Lerp(start, end, duration / time);
 				yield return new WaitForSeconds(Time.deltaTime);
 			}
-
+		
 			StartCoroutine(lerpUp(lerpTimeUp));
 			yield return null;
 		}

@@ -4,16 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SequenceManager : MonoBehaviour {
-	[Header("Sequence Information")]
+public class SequenceManager :  Photon.PunBehaviour, IPunObservable {
+    [Header("Sequence Information")]
 	public List<Interactable> masterSequence;				//main sequence (contains all interactables)
 	public Queue<Interactable> interactedObjects;			//interacted objects queue
 	public List<Interactable> interactedObj;
-	public int[] sequenceSizes;								//sequence sizes array
-	[HideInInspector]
-	public int currentSequence = 0;							//current sequence location
-	[HideInInspector]
-	public int currentSequenceSize;							//size of current sequence
+    public int[] sequenceSizes;								//sequence sizes array
+    [HideInInspector]
+    public int currentSequence = 0;							//current sequence location
+    [HideInInspector]
+    public int currentSequenceSize;							//size of current sequence
+   
+    public Console[] consoles;								//console objects array
 
 	public Console[] consoles;								//console objects array
 
@@ -21,40 +23,50 @@ public class SequenceManager : MonoBehaviour {
 	public SpriteRenderer OfficeDisplay;					//sprite display
 	public Text sequenceText;								//text display
 	public Text authText;
-	public float stepTransitionSpeed = 3.0f;				//time till display change
+    public float stepTransitionSpeed = 3.0f;				//time till display change
 	public float authDispDelay = 10.0f;
-	public float duration = 0.0f;
+	[HideInInspector]
+	public float authDuration = 0.0f;
 
 	[Header("Authentication Button Info")]
 	public GameObject lerpObject;							//authenticate button lerp
 	public Transform returnPosition;
 	public float lerpTimeUp = 1.0f;
-	[HideInInspector]
-	public bool isAnimating = false;						//is the object animated currently
+    [HideInInspector]
+    public bool isAnimating = false;						//is the object animated currently
 
 	[Header("Timer")]
 	public float timerStuff;
 
+	[Header("Win Conditions")]
+	public float gameCounter;
+	public Sprite winSprite;
 
-	// Use this for initialization
-	void Start() {
+	public Interactable[] testSeq= new Interactable[5];
 
-		consoles = FindObjectsOfType<Console>();							//add all consoles to console array
-		CreateSequence();													//run sequence creation function
-		currentSequenceSize = sequenceSizes[currentSequence];				//set current sequence size to start of sequence
-		interactedObjects = new Queue<Interactable>(currentSequenceSize);	//create new queue for interacted objects
-		StartCoroutine("DisplaySequenceToRenderer");						//start display coroutine
-	}
+    // Use this for initialization
+    void Start() {
+        gameCounter = 0;                                                    //set counter to zero at start
+        consoles = FindObjectsOfType<Console>();							//add all consoles to console array
+        CreateSequence();													//run sequence creation function
 
-	// Update is called once per frame
-	void Update() {
-		if (duration < authDispDelay + 1) {
-			duration += Time.deltaTime;
+        currentSequenceSize = sequenceSizes[currentSequence];				//set current sequence size to start of sequence
+        interactedObjects = new Queue<Interactable>(currentSequenceSize);	//create new queue for interacted objects
+        StartCoroutine("DisplaySequenceToRenderer");						//start display coroutine
+    }
+
+    // Update is called once per frame
+    void Update() {
+		if (authDuration < authDispDelay + 1) {
+			authDuration += Time.deltaTime;
 		}
-		if (duration >= authDispDelay) {
+		if (authDuration >= authDispDelay) {
 			authText.text = "Plz Enter \nSequence:";
 		}
-	}
+		if (authDuration >= 2) {
+			WinCase ();
+		}
+    }
 
 	public void CreateSequence()											//create sequence function
 	{
@@ -71,38 +83,64 @@ public class SequenceManager : MonoBehaviour {
 		ShuffleSequence();													//run shuffle function
 	}
 
-	void ShuffleSequence()													//function to shuffle sequence
+    void ShuffleSequence()													//function to shuffle sequence
+    {
+        for (int count = 0; count < masterSequence.Count; count++)						//for the entirety of the master sequence
+        {
+            int randomValue = UnityEngine.Random.Range(count, masterSequence.Count);	//create a random value
+            Interactable holder = masterSequence[randomValue];							//temp var to store the interactable from master sequence at randomVal location
+            masterSequence[randomValue] = masterSequence[count];						//place the object at count location into the randomVal location
+            masterSequence[count] = holder;												//replace the temp object into the master sequence at count location
+        }
+		testSeq[0] = masterSequence[0];
+		testSeq [1] = masterSequence [1];
+		testSeq[2] = masterSequence[2];
+		testSeq[3] = masterSequence[3];
+		testSeq[4] = masterSequence[4];
+    }
+
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 	{
-		for (int count = 0; count < masterSequence.Count; count++)						//for the entirety of the master sequence
+		if (stream.isWriting)
 		{
-			int randomValue = UnityEngine.Random.Range(count, masterSequence.Count);	//create a random value
-			Interactable holder = masterSequence[randomValue];							//temp var to store the interactable from master sequence at randomVal location
-			masterSequence[randomValue] = masterSequence[count];						//place the object at count location into the randomVal location
-			masterSequence[count] = holder;												//replace the temp object into the master sequence at count location
+			//stream.SendNext(this.OfficeDisplay);
+			stream.SendNext(this.testSeq);
+		}
+		else
+		{
+			//this.OfficeDisplay = (SpriteRenderer)stream.ReceiveNext();
+			this.testSeq = (Interactable[])stream.ReceiveNext();
+			masterSequence [0] = testSeq [0];
+			masterSequence [1] = testSeq [1];
+			masterSequence [2] = testSeq [2];
+			masterSequence [3] = testSeq [3];
+			masterSequence [4] = testSeq [4];
 		}
 	}
 
-	// NOTE(barret): This needs to be tested. I don't know how reliable this is. 
-	/* I'm not exactly sure how Photon does sycronization, but there might be a 
+
+    // NOTE(barret): This needs to be tested. I don't know how reliable this is. 
+    /* I'm not exactly sure how Photon does sycronization, but there might be a 
      * problem with desyced packets. If two players use an interactable at around 
      * the same time and send their new list to the master, which message does the 
      * master use to update first. 
     */
-	void AddUsedObjectToList(Interactable _interactable)				//add used object function
-	{
+
+    void AddUsedObjectToList(Interactable _interactable)				//add used object function
+    {
 
 		if (interactedObjects.Count + 1 > currentSequenceSize)			//if the count of interactable objects (plus one) is greater than the current sequence size
 		{
 
-			interactedObjects.Dequeue();								//remove the object at the beginning of the queue
-			interactedObjects.Enqueue(_interactable);					//add the passed in object to the queue
+            interactedObjects.Dequeue();								//remove the object at the beginning of the queue
+            interactedObjects.Enqueue(_interactable);					//add the passed in object to the queue
 			interactedObj.Add(_interactable);
-		}
-		else             												//else
-		{
-			interactedObjects.Enqueue(_interactable);					//add the passed in object to the queue
+        }
+        else             												//else
+        {
+            interactedObjects.Enqueue(_interactable);					//add the passed in object to the queue
 			interactedObj.Add(_interactable);
-		}
+        }
 
 		if (!PhotonNetwork.isMasterClient)													//if not master client
 		{
@@ -142,7 +180,7 @@ public class SequenceManager : MonoBehaviour {
 
 			}
 
-
+			
 			for (int count = offset; count < currentSequenceSize + offset; count++) {
 				if (listToCheck [count - offset].itemIndex == masterSequence [count].itemIndex) {
 					authenticated = true;
@@ -161,15 +199,16 @@ public class SequenceManager : MonoBehaviour {
 				}
 				Debug.Log ("Authenticated");
 				authText.text = "Authenticated";
-				duration = 0.0f;
-
+                gameCounter++;                                                      //increae counter for every successful sequence
+				authDuration = 0.0f;
+				return;
 
 			} else {
 				interactedObjects.Clear ();
 				interactedObj.Clear ();
 				Debug.Log ("Rejected");
 				authText.text = "Rejected";
-				duration = 0.0f;
+				authDuration = 0.0f;
 			}
 			//}
 		} else {
@@ -177,7 +216,7 @@ public class SequenceManager : MonoBehaviour {
 			interactedObj.Clear ();
 			Debug.Log ("Rejected");
 			authText.text = "Rejected";
-			duration = 0.0f;
+			authDuration = 0.0f;
 		}
 	}
 
@@ -204,6 +243,8 @@ public class SequenceManager : MonoBehaviour {
 
 		}
 	}
+
+
 
 	public IEnumerator lerpDown(float time)
 	{
@@ -248,4 +289,20 @@ public class SequenceManager : MonoBehaviour {
 		yield return null;
 
 	}
+
+	public void WinCase() {
+		if (gameCounter >= sequenceSizes.Length) {
+			bool temp = true;
+			if (temp) {
+				StopCoroutine ("DisplaySequenceToRenderer");
+				authText.text = "MELTDOWN \nAVERTED!";
+				sequenceText.text = "GAME \nWIN!";
+				OfficeDisplay.sprite = winSprite;
+				//TODO: win game
+				temp = false;
+				authDuration = 20.0f;
+			}
+		}
+	}
+		
 }
