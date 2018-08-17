@@ -15,6 +15,7 @@
 
 
 using System;
+using ExitGames.Client.Photon;
 
 
 /// <summary>
@@ -171,7 +172,8 @@ public enum PhotonNetworkingMessage
     OnFailedToConnectToPhoton,
 
     /// <summary>
-    /// Called for any update of the room-listing while in a lobby (PhotonNetwork.insideLobby) on the Master Server.
+    /// Called for any update of the room-listing while in a lobby (PhotonNetwork.insideLobby) on the Master Server
+    /// or when a response is received for PhotonNetwork.GetCustomRoomList().
     /// </summary>
     /// <remarks>
     /// PUN provides the list of rooms by PhotonNetwork.GetRoomList().<br/>
@@ -369,7 +371,7 @@ public enum PhotonNetworkingMessage
     ///
     /// Example: void OnCustomAuthenticationResponse(Dictionary&lt;string, object&gt; data) { ... }
     /// </remarks>
-    /// <see cref="https://doc.photonengine.com/en/realtime/current/reference/custom-authentication"/>
+    /// <see cref="https://doc.photonengine.com/en-us/pun/current/connection-and-authentication/custom-authentication"/>
     OnCustomAuthenticationResponse,
 
     /// <summary>
@@ -489,7 +491,7 @@ public enum PhotonTargets
 }
 
 
-/// <summary>Currently available <a href="http://doc.photonengine.com/en/pun/current/reference/regions">Photon Cloud regions</a> as enum.</summary>
+/// <summary>Currently available <a href="https://doc.photonengine.com/en-us/pun/current/connection-and-authentication/regions">Photon Cloud regions</a> as enum.</summary>
 /// <remarks>
 /// This is used in PhotonNetwork.ConnectToRegion.
 /// </remarks>
@@ -517,6 +519,8 @@ public enum CloudRegionCode
     @in = 10,
     /// <summary>Russia, ru</summary>
     ru = 11,
+    /// <summary>Russia East, rue</summary>
+    rue = 12,
 
     /// <summary>No region selected.</summary>
     none = 4
@@ -540,7 +544,8 @@ public enum CloudRegionFlag
     cae =   1 << 7,
     kr =    1 << 8,
     @in =   1 << 9,
-    ru =    1 << 10
+    ru =    1 << 10,
+    rue =   1 << 11
 };
 
 

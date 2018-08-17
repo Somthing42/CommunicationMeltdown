@@ -1,20 +1,21 @@
 ﻿// Shared Methods|Utilities|90030
 namespace VRTK
 {
-	using UnityEngine;
-	using UnityEngine.SceneManagement;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
-	using UnityEditor;
+    using UnityEditor;
 #endif
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Reflection;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using UnityEngine.VR;
 
-	/// <summary>
-	/// The Shared Methods script is a collection of reusable static methods that are used across a range of different scripts.
-	/// </summary>
-	public static class VRTK_SharedMethods
+    /// <summary>
+    /// The Shared Methods script is a collection of reusable static methods that are used across a range of different scripts.
+    /// </summary>
+    public static class VRTK_SharedMethods
     {
         /// <summary>
         /// The GetBounds methods returns the bounds of the transform including all children in world space.

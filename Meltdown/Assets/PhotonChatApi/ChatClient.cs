@@ -4,39 +4,40 @@
 // <copyright company="Exit Games GmbH">Photon Chat Api - Copyright (C) 2014 Exit Games GmbH</copyright>
 // ----------------------------------------------------------------------------------------------------------------------
 
-#if UNITY_4_7 || UNITY_5 || UNITY_5_0 || UNITY_5_1 || UNITY_2017
+#if UNITY_4_7 || UNITY_5 || UNITY_5_0 || UNITY_5_1 || UNITY_5_3_OR_NEWER
 #define UNITY
 #endif
 
 namespace ExitGames.Client.Photon.Chat
 {
-	using System;
-	using System.Collections.Generic;
-	using ExitGames.Client.Photon;
+    using System;
+    using System.Collections.Generic;
+    using ExitGames.Client.Photon;
 
-#if UNITY || NETFX_CORE
-	using SupportClass = ExitGames.Client.Photon.SupportClass;
-#endif
+    #if UNITY || NETFX_CORE
+    using Hashtable = ExitGames.Client.Photon.Hashtable;
+    using SupportClass = ExitGames.Client.Photon.SupportClass;
+    #endif
 
 
-	/// <summary>Central class of the Photon Chat API to connect, handle channels and messages.</summary>
-	/// <remarks>
-	/// This class must be instantiated with a IChatClientListener instance to get the callbacks.
-	/// Integrate it into your game loop by calling Service regularly. If the target platform supports Threads/Tasks,
-	/// set UseBackgroundWorkerForSending = true, to let the ChatClient keep the connection by sending from
-	/// an independent thread.
-	///
-	/// Call Connect with an AppId that is setup as Photon Chat application. Note: Connect covers multiple
-	/// messages between this client and the servers. A short workflow will connect you to a chat server.
-	///
-	/// Each ChatClient resembles a user in chat (set in Connect). Each user automatically subscribes a channel
-	/// for incoming private messages and can message any other user privately.
-	/// Before you publish messages in any non-private channel, that channel must be subscribed.
-	///
-	/// PublicChannels is a list of subscribed channels, containing messages and senders.
-	/// PrivateChannels contains all incoming and sent private messages.
-	/// </remarks>
-	public class ChatClient : IPhotonPeerListener
+    /// <summary>Central class of the Photon Chat API to connect, handle channels and messages.</summary>
+    /// <remarks>
+    /// This class must be instantiated with a IChatClientListener instance to get the callbacks.
+    /// Integrate it into your game loop by calling Service regularly. If the target platform supports Threads/Tasks,
+    /// set UseBackgroundWorkerForSending = true, to let the ChatClient keep the connection by sending from
+    /// an independent thread.
+    ///
+    /// Call Connect with an AppId that is setup as Photon Chat application. Note: Connect covers multiple
+    /// messages between this client and the servers. A short workflow will connect you to a chat server.
+    ///
+    /// Each ChatClient resembles a user in chat (set in Connect). Each user automatically subscribes a channel
+    /// for incoming private messages and can message any other user privately.
+    /// Before you publish messages in any non-private channel, that channel must be subscribed.
+    ///
+    /// PublicChannels is a list of subscribed channels, containing messages and senders.
+    /// PrivateChannels contains all incoming and sent private messages.
+    /// </remarks>
+    public class ChatClient : IPhotonPeerListener
     {
         const int FriendRequestListMax = 1024;
 

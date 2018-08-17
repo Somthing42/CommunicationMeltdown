@@ -8,57 +8,58 @@
 #if (UNITY_5_4_OR_NEWER)
 namespace VRTK
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Collections.ObjectModel;
-	using System.Linq;
-	using System.Text;
-	using UnityEngine;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Text;
+    using UnityEngine;
+    using UnityEngine.VR;
 
-	/// <summary>
-	/// Adaptive Quality dynamically changes rendering settings to maintain VR framerate while maximizing GPU utilization.
-	/// </summary>
-	/// <remarks>
-	///   > **Only Compatible With Unity 5.4 and above**
-	///
-	/// There are two goals:
-	/// <list type="bullet">
-	/// <item> <description>Reduce the chances of dropping frames and reprojecting</description> </item>
-	/// <item> <description>Increase quality when there are idle GPU cycles</description> </item>
-	/// </list>
-	/// <para />
-	/// This script currently changes the following to reach these goals:
-	/// <list type="bullet">
-	/// <item> <description>Rendering resolution and viewport size (aka Dynamic Resolution)</description> </item>
-	/// </list>
-	/// <para />
-	/// In the future it could be changed to also change the following:
-	/// <list type="bullet">
-	/// <item> <description>MSAA level</description> </item>
-	/// <item> <description>Fixed Foveated Rendering</description> </item>
-	/// <item> <description>Radial Density Masking</description> </item>
-	/// <item> <description>(Non-fixed) Foveated Rendering (once HMDs support eye tracking)</description> </item>
-	/// </list>
-	/// <para />
-	/// Some shaders, especially Image Effects, need to be modified to work with the changed render scale. To fix them
-	/// pass `1.0f / VRSettings.renderViewportScale` into the shader and scale all incoming UV values with it in the vertex
-	/// program. Do this by using `Material.SetFloat` to set the value in the script that configures the shader.
-	/// <para />
-	/// In more detail:
-	/// <list type="bullet">
-	/// <item> <description>In the `.shader` file: Add a new runtime-set property value `float _InverseOfRenderViewportScale`
-	/// and add `vertexInput.texcoord *= _InverseOfRenderViewportScale` to the start of the vertex program</description> </item>
-	/// <item> <description>In the `.cs` file: Before using the material (eg. `Graphics.Blit`) add
-	/// `material.SetFloat("_InverseOfRenderViewportScale", 1.0f / VRSettings.renderViewportScale)`</description> </item>
-	/// </list>
-	/// </remarks>
-	/// <example>
-	/// `VRTK/Examples/039_CameraRig_AdaptiveQuality` displays the frames per second in the centre of the headset view.
-	/// The debug visualization of this script is displayed near the top edge of the headset view.
-	/// Pressing the trigger generates a new sphere and pressing the touchpad generates ten new spheres.
-	/// Eventually when lots of spheres are present the FPS will drop and demonstrate the script.
-	/// </example>
-	[AddComponentMenu("VRTK/Scripts/Utilities/VRTK_AdaptiveQuality")]
+    /// <summary>
+    /// Adaptive Quality dynamically changes rendering settings to maintain VR framerate while maximizing GPU utilization.
+    /// </summary>
+    /// <remarks>
+    ///   > **Only Compatible With Unity 5.4 and above**
+    ///
+    /// There are two goals:
+    /// <list type="bullet">
+    /// <item> <description>Reduce the chances of dropping frames and reprojecting</description> </item>
+    /// <item> <description>Increase quality when there are idle GPU cycles</description> </item>
+    /// </list>
+    /// <para />
+    /// This script currently changes the following to reach these goals:
+    /// <list type="bullet">
+    /// <item> <description>Rendering resolution and viewport size (aka Dynamic Resolution)</description> </item>
+    /// </list>
+    /// <para />
+    /// In the future it could be changed to also change the following:
+    /// <list type="bullet">
+    /// <item> <description>MSAA level</description> </item>
+    /// <item> <description>Fixed Foveated Rendering</description> </item>
+    /// <item> <description>Radial Density Masking</description> </item>
+    /// <item> <description>(Non-fixed) Foveated Rendering (once HMDs support eye tracking)</description> </item>
+    /// </list>
+    /// <para />
+    /// Some shaders, especially Image Effects, need to be modified to work with the changed render scale. To fix them
+    /// pass `1.0f / VRSettings.renderViewportScale` into the shader and scale all incoming UV values with it in the vertex
+    /// program. Do this by using `Material.SetFloat` to set the value in the script that configures the shader.
+    /// <para />
+    /// In more detail:
+    /// <list type="bullet">
+    /// <item> <description>In the `.shader` file: Add a new runtime-set property value `float _InverseOfRenderViewportScale`
+    /// and add `vertexInput.texcoord *= _InverseOfRenderViewportScale` to the start of the vertex program</description> </item>
+    /// <item> <description>In the `.cs` file: Before using the material (eg. `Graphics.Blit`) add
+    /// `material.SetFloat("_InverseOfRenderViewportScale", 1.0f / VRSettings.renderViewportScale)`</description> </item>
+    /// </list>
+    /// </remarks>
+    /// <example>
+    /// `VRTK/Examples/039_CameraRig_AdaptiveQuality` displays the frames per second in the centre of the headset view.
+    /// The debug visualization of this script is displayed near the top edge of the headset view.
+    /// Pressing the trigger generates a new sphere and pressing the touchpad generates ten new spheres.
+    /// Eventually when lots of spheres are present the FPS will drop and demonstrate the script.
+    /// </example>
+    [AddComponentMenu("VRTK/Scripts/Utilities/VRTK_AdaptiveQuality")]
     public sealed class VRTK_AdaptiveQuality : MonoBehaviour
     {
         #region Public fields

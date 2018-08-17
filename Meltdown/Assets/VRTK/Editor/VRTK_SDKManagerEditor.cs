@@ -1,13 +1,14 @@
 ﻿namespace VRTK
 {
-	using UnityEngine;
-	using UnityEditor;
-	using UnityEditorInternal;
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
+    using UnityEngine;
+    using UnityEditor;
+    using UnityEditorInternal;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
 
-	[CustomEditor(typeof(VRTK_SDKManager))]
+    [CustomEditor(typeof(VRTK_SDKManager))]
     public class VRTK_SDKManagerEditor : Editor
     {
         private static readonly Dictionary<BuildTargetGroup, bool> isBuildTargetActiveSymbolsFoldOut;

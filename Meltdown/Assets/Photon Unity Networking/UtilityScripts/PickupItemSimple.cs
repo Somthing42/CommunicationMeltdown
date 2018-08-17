@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 /// <summary>
 /// Makes a scene object pickup-able. Needs a PhotonView which belongs to the scene.

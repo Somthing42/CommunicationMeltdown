@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(PhotonView))]
 public class SmoothSyncMovement : Photon.MonoBehaviour, IPunObservable

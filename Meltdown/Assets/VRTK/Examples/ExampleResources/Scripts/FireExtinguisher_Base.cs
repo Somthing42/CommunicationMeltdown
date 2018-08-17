@@ -1,8 +1,9 @@
 ﻿namespace VRTK.Examples
 {
-	using UnityEngine;
+    using System;
+    using UnityEngine;
 
-	public class FireExtinguisher_Base : VRTK_InteractableObject
+    public class FireExtinguisher_Base : VRTK_InteractableObject
     {
         public Animation leverAnimation;
         public FireExtinguisher_Sprayer sprayer;

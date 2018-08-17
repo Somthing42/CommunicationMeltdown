@@ -144,16 +144,6 @@ namespace VRTK
 
         protected virtual void InteractableObjectUngrabbed(object sender, InteractableObjectEventArgs e)
         {
-			if(this.gameObject.GetComponent<CustomLever>() != null)
-			{
-				this.gameObject.GetComponent<CustomLever>().OnObjectUsed();
-			}
-
-			if(this.gameObject.GetComponent<CustomThrottle>() != null)
-			{
-				this.gameObject.GetComponent<CustomThrottle>().OnObjectUsed();
-			}
-
             leverRigidbody.angularDrag = releasedFriction;
         }
 

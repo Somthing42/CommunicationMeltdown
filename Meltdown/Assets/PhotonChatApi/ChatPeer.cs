@@ -4,25 +4,27 @@
 // <copyright company="Exit Games GmbH">Photon Chat Api - Copyright (C) 2014 Exit Games GmbH</copyright>
 // ----------------------------------------------------------------------------------------------------------------------
 
-#if UNITY_4_7 || UNITY_5 || UNITY_5_0 || UNITY_5_1 || UNITY_2017
+#if UNITY_4_7 || UNITY_5 || UNITY_5_0 || UNITY_5_1 || UNITY_5_3_OR_NEWER
 #define UNITY
 #endif
 
 namespace ExitGames.Client.Photon.Chat
 {
-	using System;
-	using System.Diagnostics;
-	using System.Collections.Generic;
-	using ExitGames.Client.Photon;
+    using System;
+    using System.Diagnostics;
+    using System.Collections.Generic;
+    using ExitGames.Client.Photon;
 
-#if UNITY || NETFX_CORE
-#endif
+    #if UNITY || NETFX_CORE
+    using Hashtable = ExitGames.Client.Photon.Hashtable;
+    using SupportClass = ExitGames.Client.Photon.SupportClass;
+    #endif
 
 
-	/// <summary>
-	/// Provides basic operations of the Photon Chat server. This internal class is used by public ChatClient.
-	/// </summary>
-	public class ChatPeer : PhotonPeer
+    /// <summary>
+    /// Provides basic operations of the Photon Chat server. This internal class is used by public ChatClient.
+    /// </summary>
+    public class ChatPeer : PhotonPeer
     {
         /// <summary>Name Server Host Name for Photon Cloud. Without port and without any prefix.</summary>
         public const string NameServerHost = "ns.exitgames.com";

@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -11,11 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
-  AppID: 41eef629-a761-4356-9edc-94448a83d150
-  VoiceAppID: 9da18857-b080-4015-9fb7-56a1319fe141
+  AppID: 40517449-b934-41b6-aebe-ea4f5518e50a
+  VoiceAppID: 
   ChatAppID: 
   HostType: 1
-  PreferredRegion: 6
+  PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
   ServerAddress: 
@@ -28,25 +28,25 @@ MonoBehaviour:
   RunInBackground: 1
   RpcList:
   - Chat
+  - ColorRpc
   - DestroyRpc
+  - DoJump
+  - Flash
   - InstantiateRpc
+  - Marco
+  - NetFire
+  - NewPlayer
   - PickupItemInit
+  - PlayClipAtPoint
+  - Polo
   - PunPickup
   - PunPickupSimple
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
-  - NetFire
-  - NewPlayer
-  - PlayClipAtPoint
   - SetPanoramaFromObject
+  - TaggedPlayer
   - UpdateGameManager
-  - UpdateSequence
-  - SendButtonPress
-  - updateSequenceInformation
-  - updateCurrentStepInformation
-  - updateCurrentSequenceInformation
-  - UpdateTimer
-  - RPCUpdateTimer
   - UpdateQueue
+  - UpdateSequence
   DisableAutoOpenWizard: 1

@@ -1,8 +1,9 @@
 ﻿namespace VRTK
 {
-	using UnityEditor;
+    using UnityEngine;
+    using UnityEditor;
 
-	[CustomEditor(typeof(VRTK_PolicyList))]
+    [CustomEditor(typeof(VRTK_PolicyList))]
     public class VRTK_PolicyListEditor : Editor
     {
         SerializedProperty staticFlagMask;

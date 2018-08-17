@@ -1,14 +1,15 @@
 ﻿// SDK Info|Utilities|90013
 namespace VRTK
 {
-	using UnityEngine;
-	using System;
-	using System.Collections.Generic;
+    using UnityEngine;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
-	/// <summary>
-	/// Holds all the info necessary to describe an SDK.
-	/// </summary>
-	[Serializable]
+    /// <summary>
+    /// Holds all the info necessary to describe an SDK.
+    /// </summary>
+    [Serializable]
     public sealed class VRTK_SDKInfo : ISerializationCallbackReceiver
     {
         /// <summary>

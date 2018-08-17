@@ -1,12 +1,13 @@
 ﻿// Device Finder|Utilities|90020
 namespace VRTK
 {
-	using UnityEngine;
+    using UnityEngine;
+    using UnityEngine.VR;
 
-	/// <summary>
-	/// The Device Finder offers a collection of static methods that can be called to find common game devices such as the headset or controllers, or used to determine key information about the connected devices.
-	/// </summary>
-	public static class VRTK_DeviceFinder
+    /// <summary>
+    /// The Device Finder offers a collection of static methods that can be called to find common game devices such as the headset or controllers, or used to determine key information about the connected devices.
+    /// </summary>
+    public static class VRTK_DeviceFinder
     {
         /// <summary>
         /// Possible devices.

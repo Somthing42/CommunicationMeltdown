@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 /// <summary>
 /// Makes a scene object pickup-able. Needs a PhotonView which belongs to the scene.

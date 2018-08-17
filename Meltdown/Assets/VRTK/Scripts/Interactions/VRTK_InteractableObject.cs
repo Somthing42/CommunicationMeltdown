@@ -167,7 +167,7 @@ namespace VRTK
         {
             get
             {
-                if (interactableRigidbody != null)
+                if (interactableRigidbody)
                 {
                     return interactableRigidbody.isKinematic;
                 }
@@ -175,7 +175,7 @@ namespace VRTK
             }
             set
             {
-                if (interactableRigidbody != null)
+                if (interactableRigidbody)
                 {
                     interactableRigidbody.isKinematic = value;
                 }
@@ -206,25 +206,8 @@ namespace VRTK
         protected bool startDisabled = false;
 
         public virtual void OnInteractableObjectTouched(InteractableObjectEventArgs e)
-		{
-			//If Interactable is Button: Use this Version
-			if (this.gameObject.GetComponent<CustomButton> () != null) 
-			{
-				StartCoroutine(this.gameObject.GetComponent<CustomButton>().lerpDown(0.2f));
-				Debug.Log ("Button Test");
-				this.gameObject.GetComponent<CustomButton>().OnObjectUsed();
-			}
-
-
-			//if Interactable is Authentication Button: Use this Version
-			if(this.gameObject.GetComponent<SequenceManager>() != null)
-			{
-				StartCoroutine(this.gameObject.GetComponent<SequenceManager>().lerpDown(0.2f));
-				Debug.Log ("Auth Test");
-				this.gameObject.GetComponent<SequenceManager>().Authenticate();
-			}
-
-			if (InteractableObjectTouched != null)
+        {
+            if (InteractableObjectTouched != null)
             {
                 InteractableObjectTouched(this, e);
             }
@@ -248,24 +231,11 @@ namespace VRTK
 
         public virtual void OnInteractableObjectUngrabbed(InteractableObjectEventArgs e)
         {
-			if (InteractableObjectUngrabbed != null)
+            if (InteractableObjectUngrabbed != null)
             {
                 InteractableObjectUngrabbed(this, e);
             }
-
-			if (this.gameObject.GetComponent<CustomDial>() != null)
-			{
-				this.gameObject.GetComponent<CustomDial>().OnObjectUsed();
-			}
-			if (this.gameObject.GetComponent<CustomSlider>() != null)
-			{
-				this.gameObject.GetComponent<CustomSlider>().OnObjectUsed();
-			}
-			if (this.gameObject.GetComponent<CustomWheel> () != null) 
-			{
-				this.gameObject.GetComponent<CustomWheel> ().OnObjectUsed ();
-			}
-		}
+        }
 
         public virtual void OnInteractableObjectUsed(InteractableObjectEventArgs e)
         {
@@ -460,7 +430,7 @@ namespace VRTK
         {
             GameObject previousGrabbingGameObject = (previousGrabbingObject != null ? previousGrabbingObject.gameObject : null);
             GameObject secondaryGrabbingObject = GetSecondaryGrabbingObject();
-            if (secondaryGrabbingObject == null || secondaryGrabbingObject != previousGrabbingGameObject)
+            if (!secondaryGrabbingObject || secondaryGrabbingObject != previousGrabbingGameObject)
             {
                 SecondaryControllerUngrab(secondaryGrabbingObject);
                 PrimaryControllerUngrab(previousGrabbingGameObject, secondaryGrabbingObject);
@@ -561,10 +531,9 @@ namespace VRTK
         {
             if (delay > 0f)
             {
-                Rigidbody[] childRigidbodies = GetComponentsInChildren<Rigidbody>();
-                for (int i = 0; i < childRigidbodies.Length; i++)
+                foreach (Rigidbody rb in GetComponentsInChildren<Rigidbody>())
                 {
-                    childRigidbodies[i].detectCollisions = false;
+                    rb.detectCollisions = false;
                 }
                 Invoke("UnpauseCollisions", delay);
             }
@@ -575,7 +544,7 @@ namespace VRTK
         /// </summary>
         public virtual void ZeroVelocity()
         {
-            if (interactableRigidbody != null)
+            if (interactableRigidbody)
             {
                 interactableRigidbody.velocity = Vector3.zero;
                 interactableRigidbody.angularVelocity = Vector3.zero;
@@ -595,7 +564,7 @@ namespace VRTK
                     previousIsGrabbable = isGrabbable;
                 }
 
-                if (interactableRigidbody != null)
+                if (interactableRigidbody)
                 {
                     previousKinematicState = interactableRigidbody.isKinematic;
                 }
@@ -707,9 +676,8 @@ namespace VRTK
         /// </summary>
         public virtual void UnregisterTeleporters()
         {
-            for (int i = 0; i < VRTK_ObjectCache.registeredTeleporters.Count; i++)
+            foreach (VRTK_BasicTeleport teleporter in VRTK_ObjectCache.registeredTeleporters)
             {
-                VRTK_BasicTeleport teleporter = VRTK_ObjectCache.registeredTeleporters[i];
                 teleporter.Teleporting -= new TeleportEventHandler(OnTeleporting);
                 teleporter.Teleported -= new TeleportEventHandler(OnTeleported);
             }
@@ -738,10 +706,7 @@ namespace VRTK
             }
             else
             {
-                if (interactableRigidbody != null)
-                {
-                    interactableRigidbody.WakeUp();
-                }
+                interactableRigidbody.WakeUp();
                 ResetDropSnapType();
                 OnInteractableObjectUnsnappedFromDropZone(SetInteractableObjectEvent(snapDropZone.gameObject));
             }
@@ -1013,7 +978,7 @@ namespace VRTK
             if (isGrabbable && grabAttachMechanicScript == null)
             {
                 VRTK_BaseGrabAttach setGrabMechanic = GetComponent<VRTK_BaseGrabAttach>();
-                if (setGrabMechanic == null)
+                if (!setGrabMechanic)
                 {
                     setGrabMechanic = gameObject.AddComponent<VRTK_FixedJointGrabAttach>();
                 }
@@ -1176,9 +1141,8 @@ namespace VRTK
         protected virtual IEnumerator RegisterTeleportersAtEndOfFrame()
         {
             yield return new WaitForEndOfFrame();
-            for (int i = 0; i < VRTK_ObjectCache.registeredTeleporters.Count; i++)
+            foreach (VRTK_BasicTeleport teleporter in VRTK_ObjectCache.registeredTeleporters)
             {
-                VRTK_BasicTeleport teleporter = VRTK_ObjectCache.registeredTeleporters[i];
                 teleporter.Teleporting += new TeleportEventHandler(OnTeleporting);
                 teleporter.Teleported += new TeleportEventHandler(OnTeleported);
             }

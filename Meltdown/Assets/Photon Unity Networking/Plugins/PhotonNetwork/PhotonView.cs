@@ -8,9 +8,11 @@
 // <author>developer@exitgames.com</author>
 // ----------------------------------------------------------------------------
 
+using System;
 using UnityEngine;
 using System.Reflection;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 
 #if UNITY_EDITOR
 using UnityEditor;

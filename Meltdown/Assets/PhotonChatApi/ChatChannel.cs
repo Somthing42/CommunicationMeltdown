@@ -4,29 +4,31 @@
 // <copyright company="Exit Games GmbH">Photon Chat Api - Copyright (C) 2014 Exit Games GmbH</copyright>
 // ----------------------------------------------------------------------------------------------------------------------
 
-#if UNITY_4_7 || UNITY_5 || UNITY_5_0 || UNITY_5_1 || UNITY_2017
+#if UNITY_4_7 || UNITY_5 || UNITY_5_0 || UNITY_5_1 || UNITY_5_3_OR_NEWER
 #define UNITY
 #endif
 
 namespace ExitGames.Client.Photon.Chat
 {
-	using System.Collections.Generic;
-	using System.Text;
+    using System.Collections.Generic;
+    using System.Text;
 
-#if UNITY || NETFX_CORE
-#endif
+    #if UNITY || NETFX_CORE
+    using Hashtable = ExitGames.Client.Photon.Hashtable;
+    using SupportClass = ExitGames.Client.Photon.SupportClass;
+    #endif
 
 
-	/// <summary>
-	/// A channel of communication in Photon Chat, updated by ChatClient and provided as READ ONLY.
-	/// </summary>
-	/// <remarks>
-	/// Contains messages and senders to use (read!) and display by your GUI.
-	/// Access these by:
-	///     ChatClient.PublicChannels
-	///     ChatClient.PrivateChannels
-	/// </remarks>
-	public class ChatChannel
+    /// <summary>
+    /// A channel of communication in Photon Chat, updated by ChatClient and provided as READ ONLY.
+    /// </summary>
+    /// <remarks>
+    /// Contains messages and senders to use (read!) and display by your GUI.
+    /// Access these by:
+    ///     ChatClient.PublicChannels
+    ///     ChatClient.PrivateChannels
+    /// </remarks>
+    public class ChatChannel
     {
         /// <summary>Name of the channel (used to subscribe and unsubscribe).</summary>
         public readonly string Name;
