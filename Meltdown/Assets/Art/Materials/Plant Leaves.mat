@@ -4,7 +4,7 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Plant Leaves
   m_Shader: {fileID: 14000, guid: 0000000000000000f000000000000000, type: 0}
@@ -62,7 +62,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cull: 0
-    - _Cutoff: 0.5
+    - _Cutoff: 0.239
     - _DetailNormalMapScale: 1
     - _DstBlend: 10
     - _GlossMapScale: 1
